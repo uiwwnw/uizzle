@@ -6,32 +6,40 @@ import PropTypes from 'prop-types';
 export default class Cell extends Component {
     constructor(props) {
         super(props);
-        let color = '';
-        switch (this.props.icon) {
-            case 'camera':
+        let color = null;
+        let icon = null;
+        switch (this.props.num) {
+            case 1:
+                icon = 'camera';
                 color = '#999';
                 break;
-            case 'home':
+            case 2:
+                icon = 'home';
                 color = '#zzz';
                 break;
-            case 'search':
+            case 3:
+                icon = 'search';
                 color = '#777';
                 break;
-            case 'address-book':
+            case 4:
+                icon = 'address-book';
                 color = '#aaa';
                 break;
-            case 'volume-up':
+            case 5:
+                icon = 'volume-up';
                 color = '#e2e2e2';
                 break;
-            case 'wifi':
+            case 6:
+                icon = 'wifi';
                 color = '#ddd';
                 break;
-            case 'edit':
+            case 7:
+                icon = 'edit';
                 color = '#eee';
                 break;
         };
         this.state = {
-            icon: this.props.icon,
+            icon,
             color
         };
         this.Cell = styled.button`
@@ -41,18 +49,43 @@ export default class Cell extends Component {
             margin: 0;
             padding: 0;
             border: 1px solid #000;
+            /* transition: .3s transform; */
+            /* animation: select .4s; */
             background: ${this.state.color};
 
             &:active {
+                animation: select .3s;
+                /* transform: scale(1.1); */
                 /* background: ${props => props.bg === undefined ? '#efefef' : '#999'}; */
+            };
+            @keyframes select {
+                0%{
+                    transform: scale(0);
+                }
+                10%{
+                    transform: scale(.9);
+                }
+                50%{
+                    transform: scale(1.1) rotate(30deg);
+                }
+                80%{
+                    transform: scale(1.1) rotate(-30deg);
+                }
+                100%{
+                    transform: scale(1) rotate(0);
+                }
             }
         `;
+    }
+
+    aaa(){
+        console.log(this);
     }
 
     render() {
         
         return (
-            <this.Cell>
+            <this.Cell onClick={this.aaa.bind(this)}>
                 <FontAwesomeIcon icon={this.state.icon} />
             </this.Cell>
         )

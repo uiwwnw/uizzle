@@ -9,20 +9,25 @@ class Row extends Component {
             flex: 1;
             width: 10vmin;
             height: 10vmin;
+            color: #fff;
+            line-height: 10vmin;
+            text-align: center;
             border: 1px solid #000;
             box-sizing: border-box;
+            font-style: normal;
+            background: #000;
         `;
     };
 
     render() {
-        const {dataMap:icon} = this.props;
-        if (icon === 0) {
+        const {dataMap:num} = this.props;
+        if (num === 0) {
             return (
                 <this.I>empty</this.I>
             )            
         }
         return (
-            <Conponents.Cell icon={icon} />
+            <Conponents.Cell num={num} />
         )
     }
 };
@@ -61,9 +66,9 @@ class Map extends Component {
         return (
             <this.Map>
                 {
-                    this.props.dataMap.map((coll, collIdx) => {
+                    this.props.dataMap.map((map, mapIdx) => {
                         return (
-                            <Coll dataMap={coll} key={collIdx} />
+                            <Coll dataMap={map} key={mapIdx} />
                         )
                     })
                 }
@@ -119,34 +124,7 @@ export default class Game extends Component {
     //     return Math.floor(Math.random() * (max - min + 1) + min);
     // };
     random() {
-        const num = Math.floor(Math.random() * 7 + 1);
-        // console.log(num)
-        let icon = '';
-        switch (num) {
-            case 1:
-                icon = 'camera';
-                break;
-            case 2:
-                icon = 'home';
-                break;
-            case 3:
-                icon = 'search';
-                break;
-            case 4:
-                icon = 'address-book';
-                break;
-            case 5:
-                icon = 'volume-up';
-                break;
-            case 6:
-                icon = 'wifi';
-                break;
-            case 7:
-                icon = 'edit';
-                break;
-        };
-
-        return icon;
+        return Math.floor(Math.random() * 7 + 1);
     };
 
     render() {
