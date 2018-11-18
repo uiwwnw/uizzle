@@ -22,7 +22,6 @@ export default class Cell extends Component {
             d: null
         };
         this.Cell = styled.button`
-            /* flex: 1; */
             width: 10vmin;
             height: 10vmin;
             margin: 0;
@@ -55,6 +54,10 @@ export default class Cell extends Component {
             &[data-d="r"] {
                 /* transform: translateX(10vmin); */
                 animation: r .3s;
+            }
+
+            svg {
+                pointer-events: none;
             }
             
             @keyframes select {
@@ -98,6 +101,8 @@ export default class Cell extends Component {
         `;
     }
     down(e){
+        this.d = null;
+        this.el = e.target;
         this.setState({
             class: 'active',
             d: null
@@ -115,15 +120,22 @@ export default class Cell extends Component {
     }
 
     move(e){
+        let vmin = window.innerWidth>=window.innerHeight?window.innerHeight:window.innerWidth;
+        vmin=Math.floor(vmin/10);
         let x = e.clientX;
         let y = e.clientY;
         let dx = -this.sx + x;
         let dy = this.sy - y;
+        dx = dx>vmin?vmin:dx;
+        dy = dy>vmin?vmin:dy;
+        dx = dx<-vmin?-vmin:dx;
+        dy = dy<-vmin?-vmin:dy;
         let ax = Math.abs(dx);
         let ay = Math.abs(dy);
-        this.d;
         if(ax>=ay)this.d = dx>0?'r':'l';
         else this.d = dy>0?'u':'d';
+        if(this.d==='r'||this.d==='l')this.el.setAttribute('style', `transform: translateX(${dx}px);transition: none;`);
+        else this.el.setAttribute('style', `transform: translateY(${dy*-1}px);transition: none;`);
         this.setState({
             class: 'move'
         });
@@ -139,6 +151,7 @@ export default class Cell extends Component {
         this.setState({
             d: this.d
         });
+        this.el.removeAttribute('style');
         this.props.switch(this.props.x,this.props.y,this.state.icon, this.d);
         this.sto = setTimeout(()=>{
             this.setState({
