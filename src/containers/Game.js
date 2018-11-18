@@ -81,6 +81,7 @@ export default class Game extends Component {
     constructor(props) {
         super(props);
         this.Game = styled.section`
+            user-select: none;
         `;
         const dataBg = [
             [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
