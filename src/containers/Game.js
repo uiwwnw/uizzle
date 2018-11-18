@@ -53,14 +53,15 @@ class Coll extends Component {
    
 
     render() {
-        let row = this.props.dataMap.map((coll, collIdx) => {
-            return (
-                <Row dataMap={coll} key={collIdx} y={collIdx} x={this.props.x} switch={this.props.switch} />
-            )
-        })
         return (
             <this.Coll>
-                {row}
+                {
+                    this.props.dataMap.map((coll, collIdx) => {
+                        return (
+                            <Row dataMap={coll} key={collIdx} y={collIdx} x={this.props.x} switch={this.props.switch} />
+                        )
+                    })
+                }
             </this.Coll>
         )
     }
@@ -73,14 +74,15 @@ class Map extends Component {
         `;
     }
     render() {
-        let coll = this.props.dataMap.map((map, mapIdx) => {
-            return (
-                <Coll dataMap={map} key={mapIdx} x={mapIdx} switch={this.props.switch} />
-            )
-        });
         return (
             <this.Map>
-                {coll}
+                {
+                    this.props.dataMap.map((map, mapIdx) => {
+                        return (
+                            <Coll dataMap={map} key={mapIdx} x={mapIdx} switch={this.props.switch} />
+                        )
+                    })
+                }
             </this.Map>
         )
     }
@@ -93,20 +95,20 @@ export default class Game extends Component {
             user-select: none;
         `;
 
+        this.dataBg = [
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ];
         this.state = {
-            dataBg: [
-                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-            ],
-            dataMap: []
+            dataMap: this.setDataMap()
         };
         this.setDataMap = this.setDataMap.bind(this);
         // this.renderMap.apply(this);
@@ -117,8 +119,7 @@ export default class Game extends Component {
     }
     setDataMap() {
         let dataMap = [];
-        const {dataBg} = this.state;
-        for (let col of dataBg) {
+        for (let col of this.dataBg) {
             const coll = [];
             for (let row of col) {
                 if (row !== 0) {
@@ -137,42 +138,55 @@ export default class Game extends Component {
         const {dataMap} = this.state;
         // console.log(this.state.dataMap[x], x);
         let start;
+        // const startId = 'i'+x+String(y);
+        // const startEl = document.getElementById(startId);
         let end;
-        let el;
+        let endEl;
+        let endId;
         switch(d) {
             case 'u':
+                endId = 'i'+x+Number(y + 1);
+                endEl = document.getElementById(endId);
+                if(endEl === null) return false;
                 start = dataMap[x].splice(y, 1);
-                el = document.getElementById('i'+x+Number(y + 1));
-                el.setAttribute('data-d','d');
+                endEl.setAttribute('data-d','d');
                 dataMap[x].splice(y+1, 0, start[0]);
                 break;
             case 'd':
+                endId = 'i'+x+Number(y - 1);
+                endEl = document.getElementById(endId);
+                if(endEl === null) return false;
                 start = dataMap[x].splice(y, 1);
-                el = document.getElementById('i'+x+Number(y - 1));
-                el.setAttribute('data-d','u');
+                endEl.setAttribute('data-d','u');
                 dataMap[x].splice(y, 0, start[0]);
                 break;
             case 'r':
+                endId = 'i'+Number(x+1)+String(y);
+                endEl = document.getElementById(endId);
+                if(endEl === null) return false;
                 start = dataMap[x].splice(y, 1);
-                el = document.getElementById('i'+Number(x+1)+String(y));
-                el.setAttribute('data-d', 'l');
+                endEl.setAttribute('data-d', 'l');
                 end = dataMap[x+1].splice(y, 1);
                 dataMap[x+1].splice(y, 0, start[0]);
                 dataMap[x].splice(y, 0, end[0]);
                 break;
             case 'l':
+                endId = 'i'+Number(x-1)+String(y);
+                endEl = document.getElementById(endId);
+                if(endEl === null) return false;
                 start = dataMap[x].splice(y, 1);
-                el = document.getElementById('i'+Number(x-1)+String(y));
-                el.setAttribute('data-d', 'r');
+                endEl.setAttribute('data-d', 'r');
                 end = dataMap[x-1].splice(y, 1);
                 dataMap[x-1].splice(y, 0, start[0]);
                 dataMap[x].splice(y, 0, end[0]);
                 break;
         };
-        
+        // startEl.setAttribute('id', endId);
+        // endEl.setAttribute('id', startId);
         this.setState({
             dataMap
         });
+        // this.forceUpdate();
         // console.log(this.state.dataMap[x]);
     }
 
@@ -184,19 +198,18 @@ export default class Game extends Component {
     // }
 
     componentDidMount(){
-        this.setState({
-            dataMap: this.setDataMap()
-        });
+        // this.setState({
+        //     dataMap: this.setDataMap()
+        // });
     }
     // random (min, max) {
     //     return Math.floor(Math.random() * (max - min + 1) + min);
     // };
 
     render() {
-        let map = <Map dataMap={this.state.dataMap} switch={this.switch.bind(this)} />;
         return (
             <this.Game>
-                {map}
+                <Map dataMap={this.state.dataMap} switch={this.switch.bind(this)} />
             </this.Game>
         )
     }

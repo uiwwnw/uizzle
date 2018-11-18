@@ -6,46 +6,20 @@ import PropTypes from 'prop-types';
 export default class Cell extends Component {
     constructor(props) {
         super(props);
-        let color = null;
-        let icon = null;
+        // let color = null;
+        // let icon = null;
         this.down = this.down.bind(this);
         this.move = this.move.bind(this);
         this.up = this.up.bind(this);
-        switch (this.props.num) {
-            case 1:
-                icon = 'camera';
-                color = '#999';
-                break;
-            case 2:
-                icon = 'home';
-                color = '#zzz';
-                break;
-            case 3:
-                icon = 'search';
-                color = '#777';
-                break;
-            case 4:
-                icon = 'address-book';
-                color = '#aaa';
-                break;
-            case 5:
-                icon = 'volume-up';
-                color = '#e2e2e2';
-                break;
-            case 6:
-                icon = 'wifi';
-                color = '#ddd';
-                break;
-            case 7:
-                icon = 'edit';
-                color = '#eee';
-                break;
-        };
+        this.states = this.states.bind(this);
         this.sto;
+        this.stateSto;
         this.state = {
-            icon,
-            color,
-            class: null
+            num: null,
+            icon: null,
+            color: null,
+            class: null,
+            d: null
         };
         this.Cell = styled.button`
             /* flex: 1; */
@@ -67,16 +41,20 @@ export default class Cell extends Component {
             };
 
             &[data-d="u"] {
-                transform: translateY(-10vmin);
+                /* transform: translateY(-10vmin); */
+                animation: u .3s;
             }
             &[data-d="d"] {
-                transform: translateY(10vmin);
+                /* transform: translateY(10vmin); */
+                animation: d .3s;
             }
             &[data-d="l"] {
-                transform: translateX(-10vmin);
+                /* transform: translateX(-10vmin); */
+                animation: l .3s;
             }
             &[data-d="r"] {
-                transform: translateX(10vmin);
+                /* transform: translateX(10vmin); */
+                animation: r .3s;
             }
             
             @keyframes select {
@@ -96,11 +74,33 @@ export default class Cell extends Component {
                     transform: scale(1) rotate(0);
                 }
             }
+            
+            @keyframes u {
+                100%{
+                    transform: translateY(-10vmin);
+                }
+            }
+            @keyframes d {
+                100%{
+                    transform: translateY(10vmin);
+                }
+            }
+            @keyframes l {
+                100%{
+                    transform: translateX(-10vmin);
+                }
+            }
+            @keyframes r {
+                100%{
+                    transform: translateX(10vmin);
+                }
+            }
         `;
     }
     down(e){
         this.setState({
-            class: 'active'
+            class: 'active',
+            d: null
         });
         clearTimeout(this.sto);
         this.sto = setTimeout(()=>{
@@ -145,8 +145,59 @@ export default class Cell extends Component {
                 class: null
             });
         }, 300);
+        // this.states();
         window.removeEventListener('mousemove', this.move, false);
         window.removeEventListener('mouseup', this.up, false);
+    }
+
+    states(){
+        let icon;
+        let color;
+        let num = this.props.num;
+        if(num === this.state.num) return false;
+        switch (this.props.num) {
+            case 1:
+                icon = 'camera';
+                color = '#999';
+                break;
+            case 2:
+                icon = 'home';
+                color = '#zzz';
+                break;
+            case 3:
+                icon = 'search';
+                color = '#777';
+                break;
+            case 4:
+                icon = 'address-book';
+                color = '#aaa';
+                break;
+            case 5:
+                icon = 'volume-up';
+                color = '#e2e2e2';
+                break;
+            case 6:
+                icon = 'wifi';
+                color = '#ddd';
+                break;
+            case 7:
+                icon = 'edit';
+                color = '#eee';
+                break;
+        };
+        this.setState({
+            num,
+            icon,
+            color
+        });
+    }
+
+    componentWillMount(){
+        this.states();
+    }
+
+    componentDidUpdate() {
+        this.states();
     }
 
     render() {
