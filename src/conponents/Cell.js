@@ -48,7 +48,7 @@ export default class Cell extends Component {
             class: null
         };
         this.Cell = styled.button`
-            flex: 1;
+            /* flex: 1; */
             width: 10vmin;
             height: 10vmin;
             margin: 0;
@@ -65,6 +65,19 @@ export default class Cell extends Component {
             &.move {
                 transform: scale(1.15);
             };
+
+            &[data-d="u"] {
+                transform: translateY(-10vmin);
+            }
+            &[data-d="d"] {
+                transform: translateY(10vmin);
+            }
+            &[data-d="l"] {
+                transform: translateX(-10vmin);
+            }
+            &[data-d="r"] {
+                transform: translateX(10vmin);
+            }
             
             @keyframes select {
                 0%{
@@ -126,6 +139,7 @@ export default class Cell extends Component {
         this.setState({
             d: this.d
         });
+        this.props.switch(this.props.x,this.props.y,this.state.icon, this.d);
         this.sto = setTimeout(()=>{
             this.setState({
                 class: null
@@ -139,13 +153,16 @@ export default class Cell extends Component {
         
         return (
             <this.Cell 
+                id={'i'+this.props.x+this.props.y}
                 onMouseDown={this.down} 
                 // onMouseMoveCapture={this.move}
                 // onMouseUp={this.up} 
                 onTouchStart={this.down} 
                 // onTouchMoveCapture={this.move}
                 // onTouchEnd={this.up}
-                className={this.state.class} >
+                className={this.state.class}
+                data-d={this.state.d}
+            >
                 <FontAwesomeIcon icon={this.state.icon} />
             </this.Cell>
         )

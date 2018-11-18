@@ -17,6 +17,9 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.App = styled.main`
+            display: flex;
+            height: 100vh;
+            align-items: center;
             background: #fefefe;
             
             > section {

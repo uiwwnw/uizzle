@@ -6,7 +6,7 @@ class Row extends Component {
     constructor(props) {
         super(props);
         this.I = styled.i`
-            flex: 1;
+            /* flex: 1; */
             width: 10vmin;
             height: 10vmin;
             color: #fff;
@@ -19,6 +19,16 @@ class Row extends Component {
         `;
     };
 
+    // switch(){
+    //     const xyid = {
+    //         x: this.props.x,
+    //         y: this.props.y,
+    //         i: this.props.dataMap,
+    //         d: arguments[0]
+    //     };
+    //     this.props.switch(xyid);
+    // }
+
     render() {
         const {dataMap:num} = this.props;
         if (num === 0) {
@@ -27,7 +37,8 @@ class Row extends Component {
             )            
         }
         return (
-            <Conponents.Cell num={num} />
+            // <Conponents.Cell switch={this.switch.bind(this)} x={this.props.x} y={this.props.y} num={num} />
+            <Conponents.Cell switch={this.props.switch} x={this.props.x} y={this.props.y} num={num} />
         )
     }
 };
@@ -42,15 +53,14 @@ class Coll extends Component {
    
 
     render() {
+        let row = this.props.dataMap.map((coll, collIdx) => {
+            return (
+                <Row dataMap={coll} key={collIdx} y={collIdx} x={this.props.x} switch={this.props.switch} />
+            )
+        })
         return (
             <this.Coll>
-                {
-                    this.props.dataMap.map((coll, collIdx) => {
-                        return (
-                            <Row dataMap={coll} key={collIdx} />
-                        )
-                    })
-                }
+                {row}
             </this.Coll>
         )
     }
@@ -63,15 +73,14 @@ class Map extends Component {
         `;
     }
     render() {
+        let coll = this.props.dataMap.map((map, mapIdx) => {
+            return (
+                <Coll dataMap={map} key={mapIdx} x={mapIdx} switch={this.props.switch} />
+            )
+        });
         return (
             <this.Map>
-                {
-                    this.props.dataMap.map((map, mapIdx) => {
-                        return (
-                            <Coll dataMap={map} key={mapIdx} />
-                        )
-                    })
-                }
+                {coll}
             </this.Map>
         )
     }
@@ -83,31 +92,32 @@ export default class Game extends Component {
         this.Game = styled.section`
             user-select: none;
         `;
-        const dataBg = [
-            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-        ];
+
         this.state = {
-            dataBg
+            dataBg: [
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            ],
+            dataMap: []
         };
-        const dataMap = this.setDataMap.apply(this);
-        this.state = {
-            dataMap
-        };
+        this.setDataMap = this.setDataMap.bind(this);
         // this.renderMap.apply(this);
         // console.log(dataMap);
     };
+    random() {
+        return Math.floor(Math.random() * 7 + 1);
+    }
     setDataMap() {
         let dataMap = [];
-        const dataBg = this.state.dataBg;
+        const {dataBg} = this.state;
         for (let col of dataBg) {
             const coll = [];
             for (let row of col) {
@@ -121,17 +131,72 @@ export default class Game extends Component {
         };
         return dataMap;
     }
+
+    switch() {
+        const [x, y, i, d] = arguments;
+        const {dataMap} = this.state;
+        // console.log(this.state.dataMap[x], x);
+        let start;
+        let end;
+        let el;
+        switch(d) {
+            case 'u':
+                start = dataMap[x].splice(y, 1);
+                el = document.getElementById('i'+x+Number(y + 1));
+                el.setAttribute('data-d','d');
+                dataMap[x].splice(y+1, 0, start[0]);
+                break;
+            case 'd':
+                start = dataMap[x].splice(y, 1);
+                el = document.getElementById('i'+x+Number(y - 1));
+                el.setAttribute('data-d','u');
+                dataMap[x].splice(y, 0, start[0]);
+                break;
+            case 'r':
+                start = dataMap[x].splice(y, 1);
+                el = document.getElementById('i'+Number(x+1)+String(y));
+                el.setAttribute('data-d', 'l');
+                end = dataMap[x+1].splice(y, 1);
+                dataMap[x+1].splice(y, 0, start[0]);
+                dataMap[x].splice(y, 0, end[0]);
+                break;
+            case 'l':
+                start = dataMap[x].splice(y, 1);
+                el = document.getElementById('i'+Number(x-1)+String(y));
+                el.setAttribute('data-d', 'r');
+                end = dataMap[x-1].splice(y, 1);
+                dataMap[x-1].splice(y, 0, start[0]);
+                dataMap[x].splice(y, 0, end[0]);
+                break;
+        };
+        
+        this.setState({
+            dataMap
+        });
+        // console.log(this.state.dataMap[x]);
+    }
+
+    // aaa(){
+    //     const dataMap = this.setDataMap();
+    //     this.setState({
+    //         dataMap
+    //     });
+    // }
+
+    componentDidMount(){
+        this.setState({
+            dataMap: this.setDataMap()
+        });
+    }
     // random (min, max) {
     //     return Math.floor(Math.random() * (max - min + 1) + min);
     // };
-    random() {
-        return Math.floor(Math.random() * 7 + 1);
-    };
 
     render() {
+        let map = <Map dataMap={this.state.dataMap} switch={this.switch.bind(this)} />;
         return (
             <this.Game>
-                <Map dataMap={this.state.dataMap} />
+                {map}
             </this.Game>
         )
     }
