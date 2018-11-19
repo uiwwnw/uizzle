@@ -158,7 +158,7 @@ export default class Game extends Component {
                 if(endEl === null) return false;
                 start = dataMap[x].splice(y, 1);
                 endEl.setAttribute('data-d','u');
-                dataMap[x].splice(y, 0, start[0]);
+                dataMap[x].splice(y - 1, 0, start[0]);
                 break;
             case 'r':
                 endId = 'i'+Number(x+1)+String(y);

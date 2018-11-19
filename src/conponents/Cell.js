@@ -30,14 +30,17 @@ export default class Cell extends Component {
             transition: .3s transform;
             /* animation: select .4s; */
             background: ${this.state.color};
+            &:active {
+                transform: scale(1.1);
+            };
 
             &.active {
                 animation: select .3s;
             };
 
-            &.move {
-                transform: scale(1.15);
-            };
+            /* &.move { */
+                /* transform: scale(1.15); */
+            /* }; */
 
             &[data-d="u"] {
                 /* transform: translateY(-10vmin); */
@@ -132,10 +135,12 @@ export default class Cell extends Component {
         dy = dy<-vmin?-vmin:dy;
         let ax = Math.abs(dx);
         let ay = Math.abs(dy);
-        if(ax>=ay)this.d = dx>0?'r':'l';
-        else this.d = dy>0?'u':'d';
-        if(this.d==='r'||this.d==='l')this.el.setAttribute('style', `transform: translateX(${dx}px);transition: none;`);
-        else this.el.setAttribute('style', `transform: translateY(${dy*-1}px);transition: none;`);
+        if(ax > 5 || ay > 5) {
+            if(ax>=ay)this.d = dx>0?'r':'l';
+            else this.d = dy>0?'u':'d';
+        };
+        if(this.d==='r'||this.d==='l')this.el.setAttribute('style', `transform: scale(1.1) translateX(${dx}px);transition: none;`);
+        else this.el.setAttribute('style', `transform: scale(1.1) translateY(${dy*-1}px);transition: none;`);
         this.setState({
             class: 'move'
         });
@@ -148,11 +153,13 @@ export default class Cell extends Component {
     }
     
     up() {
-        this.setState({
-            d: this.d
-        });
+        if(this.d !== null) {
+            this.setState({
+                d: this.d
+            });
+            this.props.switch(this.props.x,this.props.y,this.state.icon, this.d);
+        };
         this.el.removeAttribute('style');
-        this.props.switch(this.props.x,this.props.y,this.state.icon, this.d);
         this.sto = setTimeout(()=>{
             this.setState({
                 class: null
