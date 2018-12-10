@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 import styled from 'styled-components';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import * as Containers from './src/containers/Containers';
 // import Game from './src/containers/Game';
 // import Start from './src/containers/Start';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { localDataSet } from './services/index';
+//import { localDataSet } from './services/index';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit } from '@fortawesome/free-solid-svg-icons';
 import 'normalize.css';
@@ -17,6 +17,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.App = styled.main`
+            overflow: hidden; 
             display: flex;
             height: 100vh;
             align-items: center;
