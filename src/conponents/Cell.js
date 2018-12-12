@@ -11,143 +11,142 @@ export default class Cell extends Component {
     this.down = this.down.bind(this);
     this.move = this.move.bind(this);
     this.up = this.up.bind(this);
-    this.animation = this.animation.bind(this);
-    this.animationEnd = this.animationEnd.bind(this);
     this.states = this.states.bind(this);
     this.state = {
       num: null,
       icon: null,
       animation : null
     };
-    this.Cell = styled.button`
-      width: 10vmin;
-      height: 10vmin;
-      margin: 0;
-      padding: 0;
-      border: 1px solid #000;
-      transition: .3s transform;
-      /* animation: select .4s; */
-      &:active {
-          transform: scale(1.1);
-      };
-
-      &[data-animation="select"] {
-          animation: select .3s;
-      };
-      &[data-animation="u"] {
-          /* transform: translateY(-10vmin); */
-          animation: u .3s;
-      }
-      &[data-animation="d"] {
-          /* transform: translateY(10vmin); */
-          animation: d .3s;
-      }
-      &[data-animation="l"] {
-          /* transform: translateX(-10vmin); */
-          animation: l .3s;
-      }
-      &[data-animation="r"] {
-          /* transform: translateX(10vmin); */
-          animation: r .3s;
-      }
-      
-      &[data-icon="home"] {
-        background: yellow;
-        
-        svg {
-          color: black;
-        }
-      }
-      
-      &[data-icon="wifi"] {
-        background: green;
-      }
-  
-      &[data-icon="address-book"] {
-        background: blue;
-      }
-  
-      &[data-icon="camera"] {
-        background: orange;
-      }
-      
-      &[data-icon="search"] {
-        background: gray;
-      }    
-       
-      &[data-icon="edit"] {
-        background: white;
-        
-        svg {
-          color: black;
-        }
-      }  
-      
-      &[data-icon="volume-up"] {
-        background: red;
-      }
-  
-      svg {
-        pointer-events: none;
-        color: #fff;
-      }
-      
-      @keyframes select {
-          0%{
-              transform: scale(0);
-          }
-          10%{
-              transform: scale(.9);
-          }
-          50%{
-              transform: scale(1.1) rotate(30deg);
-          }
-          80%{
-              transform: scale(1.1) rotate(-30deg);
-          }
-          100%{
-              transform: scale(1) rotate(0);
-          }
-      }
-      
-      @keyframes u {
-          0%{
-              transform: translateY(-10vmin);
-          }
-          100%{
-              transform: translateY(0);
-          }
-      }
-      @keyframes d {
-          0%{
-              transform: translateY(10vmin);
-          }
-          100%{
-              transform: translateY(0);
-          }
-      }
-      @keyframes l {
-          0%{
-              transform: translateX(-10vmin);
-          }
-          100%{
-              transform: translateX(0);
-          }
-      }
-      @keyframes r {
-          0%{
-              transform: translateX(10vmin);
-          }
-          100%{
-              transform: translateX(0);
-          }
-      }
-  `;
+  //  this.Cell = styled.button`
+  //    width: 10vmin;
+  //    height: 10vmin;
+  //    margin: 0;
+  //    padding: 0;
+  //    border: 1px solid #000;
+  //    transition: .3s transform;
+  //    /* animation: select .4s; */
+  //    &:active {
+  //        transform: scale(1.1);
+  //    };
+  //
+  //    &[data-animation="select"] {
+  //        animation: select .3s;
+  //    };
+  //    &[data-animation="u"] {
+  //        /* transform: translateY(-10vmin); */
+  //        animation: u .3s;
+  //    }
+  //    &[data-animation="d"] {
+  //        /* transform: translateY(10vmin); */
+  //        animation: d .3s;
+  //    }
+  //    &[data-animation="l"] {
+  //        /* transform: translateX(-10vmin); */
+  //        animation: l .3s;
+  //    }
+  //    &[data-animation="r"] {
+  //        /* transform: translateX(10vmin); */
+  //        animation: r .3s;
+  //    }
+  //
+  //    &[data-icon="home"] {
+  //      background: yellow;
+  //
+  //      svg {
+  //        color: black;
+  //      }
+  //    }
+  //
+  //    &[data-icon="wifi"] {
+  //      background: green;
+  //    }
+  //
+  //    &[data-icon="address-book"] {
+  //      background: blue;
+  //    }
+  //
+  //    &[data-icon="camera"] {
+  //      background: orange;
+  //    }
+  //
+  //    &[data-icon="search"] {
+  //      background: gray;
+  //    }
+  //
+  //    &[data-icon="edit"] {
+  //      background: white;
+  //
+  //      svg {
+  //        color: black;
+  //      }
+  //    }
+  //
+  //    &[data-icon="volume-up"] {
+  //      background: red;
+  //    }
+  //
+  //    svg {
+  //      pointer-events: none;
+  //      color: #fff;
+  //    }
+  //
+  //    @keyframes select {
+  //        0%{
+  //            transform: scale(0);
+  //        }
+  //        10%{
+  //            transform: scale(.9);
+  //        }
+  //        50%{
+  //            transform: scale(1.1) rotate(30deg);
+  //        }
+  //        80%{
+  //            transform: scale(1.1) rotate(-30deg);
+  //        }
+  //        100%{
+  //            transform: scale(1) rotate(0);
+  //        }
+  //    }
+  //
+  //    @keyframes u {
+  //        0%{
+  //            transform: translateY(-10vmin);
+  //        }
+  //        100%{
+  //            transform: translateY(0);
+  //        }
+  //    }
+  //    @keyframes d {
+  //        0%{
+  //            transform: translateY(10vmin);
+  //        }
+  //        100%{
+  //            transform: translateY(0);
+  //        }
+  //    }
+  //    @keyframes l {
+  //        0%{
+  //            transform: translateX(-10vmin);
+  //        }
+  //        100%{
+  //            transform: translateX(0);
+  //        }
+  //    }
+  //    @keyframes r {
+  //        0%{
+  //            transform: translateX(10vmin);
+  //        }
+  //        100%{
+  //            transform: translateX(0);
+  //        }
+  //    }
+  //`;
   }
 
   down(e) {
     this.d = null;
     this.el = e.target;
+    this.props.switch(this.props.dx, this.props.dy, this.state.icon, null);
     this.setState({
       animation: 'select'
     });
@@ -175,30 +174,30 @@ export default class Cell extends Component {
     dy = dy < -vmin ? -vmin : dy;
     let ax = Math.abs(dx);
     let ay = Math.abs(dy);
-    if (ax > 60 || ay > 60) {
+    if (ax/vmin > .4 || ay/vmin > .4) {
       if (ax >= ay) {
         this.d = dx > 0 ? 'r' : 'l';
       } else {
         this.d = dy > 0 ? 'u' : 'd';
       }
     }
-    if (this.d === 'r' || this.d === 'l') {
-      this.el.setAttribute('style', `transform: scale(1.1) translateX(${dx}px);transition: none;`);
-    } else {
-      this.el.setAttribute('style', `transform: scale(1.1) translateY(${dy * -1}px);transition: none;`);
-    }
+    this.setState({
+      animation: null
+    });
+      this.el.setAttribute('style', `transform: scale(1.1) translate(${dx}px, ${dy * -1}px);transition: none;`);
   }
 
   up() {
+    console.log(this.d);
     if (this.d !== null) {
-      this.setState({
-        animation: this.d,
-      });
+      //this.setState({
+      //  animation: this.d,
+      //});
       this.props.switch(this.props.x, this.props.y, this.state.icon, this.d);
-    } else {
-      this.setState({
-        animation: 'select'
-      });
+    //} else {
+    //  this.setState({
+    //    animation: 'select'
+    //  });
     }
     this.el.removeAttribute('style');
     //this.sto = setTimeout(() => {
@@ -211,21 +210,28 @@ export default class Cell extends Component {
     window.removeEventListener('mouseup', this.up, false);
   }
 
-  animationEnd() {
-    if(this.el !== undefined) {
-      this.el.removeAttribute('data-animation');
-      this.el.removeEventListener('animationend', this.animationEnd);
-    }
-  }
-
-  animation() {
-    if(this.el !== undefined) {
-      this.el.addEventListener('animationend', this.animationEnd);
-    }
-  }
+  //animationEnd() {
+  //  if(this.el !== undefined) {
+  //    this.setState({
+  //      animation: null
+  //    });
+  //    this.el.removeEventListener('animationend', this.animationEnd);
+  //  }
+  //}
+  //
+  //animation() {
+  //  if(this.el !== undefined) {
+  //    this.el.addEventListener('animationend', this.animationEnd);
+  //  }
+  //}
 
   states() {
     let icon;
+    if (this.props.animation !== this.state.animation && this.props.animation === null) {
+      this.setState({
+        animation: this.props.animation
+      });
+    }
     let num = this.props.num;
     if (num === this.state.num) {
       return false;
@@ -255,7 +261,8 @@ export default class Cell extends Component {
     }
     this.setState({
       num,
-      icon
+      icon,
+      animation: this.props.animation
     });
   }
 
@@ -265,14 +272,13 @@ export default class Cell extends Component {
 
   componentDidUpdate() {
     this.states();
-    this.animation();
+    //this.animation();
   }
 
   render() {
 
     return (
-      <this.Cell
-        id={'i' + this.props.x + this.props.y}
+      <button
         data-icon={this.state.icon}
         onMouseDown={this.down}
         // onMouseMoveCapture={this.move}
@@ -280,10 +286,10 @@ export default class Cell extends Component {
         onTouchStart={this.down}
         // onTouchMoveCapture={this.move}
         // onTouchEnd={this.up}
-        data-animation={this.state.animation?this.state.animation:this.props.animation}
+        data-animation={this.state.animation}
       >
         <FontAwesomeIcon icon={this.state.icon}/>
-      </this.Cell>
+      </button>
     );
   }
 };
