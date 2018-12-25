@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 export default class Cell extends Component {
   constructor(props) {
     super(props);
-    // let color = null;
-    // let icon = null;
     this.down = this.down.bind(this);
     this.move = this.move.bind(this);
     this.up = this.up.bind(this);
@@ -188,7 +186,6 @@ export default class Cell extends Component {
   }
 
   up() {
-    console.log(this.d);
     if (this.d !== null) {
       //this.setState({
       //  animation: this.d,
@@ -276,7 +273,6 @@ export default class Cell extends Component {
   }
 
   render() {
-
     return (
       <button
         data-icon={this.state.icon}

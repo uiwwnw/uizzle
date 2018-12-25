@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import * as Conponents from '../conponents/Conponents';
+import * as Components from '../components/Components';
 import styled from 'styled-components';
 import { postUser, getUser } from '../../services/index';
 
+const StartStyled = styled.section`
+            display: flex;
+            align-items: center;
+        `;
+        
 export default class Start extends Component {
   constructor(props) {
     super(props);
     const { id, profile_image, nickname, point } = localStorage;
     this.state = { id, profile_image, nickname, point };
-    this.Start = styled.section`
-            display: flex;
-            align-items: center;
-        `;
+    
   }
 
   componentDidMount() {
@@ -68,10 +70,10 @@ export default class Start extends Component {
 
   render() {
     return (
-      <this.Start>
-        {/* <Conponents.Button text="Start" to="/game" /> */}
+      <StartStyled>
+        {/* <components.Button text="Start" to="/game" /> */}
         <button id="kakao-login-btn"></button>
-      </this.Start>
+      </StartStyled>
     );
   }
 }

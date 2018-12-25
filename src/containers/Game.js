@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import * as Conponents from '../conponents/Conponents';
+import axios from 'axios';
+import * as Components from '../components/Components';
 import styled from 'styled-components';
 
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-class Row extends Component {
-  constructor(props) {
-    super(props);
-    this.I = styled.i`
+const IStyled = styled.i`
       /* flex: 1; */
       width: 10vmin;
       height: 10vmin;
@@ -18,6 +15,10 @@ class Row extends Component {
       font-style: normal;
       background: #000;
     `;
+class Row extends Component {
+  constructor(props) {
+    super(props);
+
   };
 
   render() {
@@ -25,32 +26,32 @@ class Row extends Component {
     let animation = false;
     if (num === 0) {
       return (
-        <this.I>empty</this.I>
+        <IStyled>empty</IStyled>
       );
     }
-    if(this.props.x === this.props.dx && this.props.y === this.props.dy) {
+    if (this.props.x === this.props.dx && this.props.y === this.props.dy) {
       animation = this.props.animation;
     }
     return (
-      // <Conponents.Cell switch={this.switch.bind(this)} x={this.props.x} y={this.props.y} num={num} />
-      <Conponents.Cell {...this.props} animation={animation} num={num}/>
+      // <components.Cell switch={this.switch.bind(this)} x={this.props.x} y={this.props.y} num={num} />
+      <Components.Cell {...this.props} animation={animation} num={num} />
     );
   }
 }
-
-class Coll extends Component {
-  constructor(props) {
-    super(props);
-    this.Coll = styled.div`
+const CollStyled = styled.div`
       display: flex;
       flex-direction: column-reverse;
     `;
+class Coll extends Component {
+  constructor(props) {
+    super(props);
+
   };
 
 
   render() {
     return (
-      <this.Coll>
+      <CollStyled>
         {
           this.props.dataMap.map((coll, collIdx) => {
             return (
@@ -63,38 +64,38 @@ class Coll extends Component {
             );
           })
         }
-      </this.Coll>
+      </CollStyled>
     );
   }
 }
-
+const MapStyled = styled.div`
+    display: flex;
+  `;
 class Map extends Component {
   constructor(props) {
     super(props);
-    this.Map = styled.div`
-            display: flex;
-        `;
+
   }
 
   render() {
+    let view = <Components.Loading />
+    if(this.props.dataMap) {
+      view = this.props.dataMap.map((map, mapIdx) => {
+        return (
+          <Coll {...this.props} dataMap={map} key={mapIdx} x={mapIdx} />
+        );
+      })
+    }
+
     return (
-      <this.Map>
-        {
-          this.props.dataMap.map((map, mapIdx) => {
-            return (
-              <Coll {...this.props} dataMap={map} key={mapIdx} x={mapIdx} />
-            );
-          })
-        }
-      </this.Map>
+      <MapStyled>
+        {view}
+      </MapStyled>
     );
   }
 }
 
-export default class Game extends Component {
-  constructor(props) {
-    super(props);
-    this.Game = styled.section`
+const GameStyled = styled.section`
       user-select: none;
       
       button {
@@ -223,20 +224,12 @@ export default class Game extends Component {
       }
     `;
 
-    this.dataBg = [
-      [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 ],
-      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-    ];
+export default class Game extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      dataMap: this.setDataMap(),
+      level: 1,
+      dataMap: null,
       dx: null,
       dy: null,
       animation: null
@@ -250,24 +243,9 @@ export default class Game extends Component {
     return Math.floor(Math.random() * max + min);
   }
 
-  setDataMap() {
-    let dataMap = [];
-    for (let col of this.dataBg) {
-      const coll = [];
-      for (let row of col) {
-        if (row !== 0) {
-          coll.push(this.random(1, 7));
-        } else {
-          coll.push(0);
-        }
-      }
-      dataMap.push(coll);
-    }
-    return dataMap;
-  }
 
   switch() {
-    const [ x, y, i, d ] = arguments;
+    const [x, y, i, d] = arguments;
     const { dataMap } = this.state;
     let start;
     let end;
@@ -277,47 +255,47 @@ export default class Game extends Component {
     switch (animation) {
       case 'u':
         dx = x;
-        dy = y+1;
-        if(dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        dy = y + 1;
+        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
           return false;
         }
-        start = dataMap[ x ].splice(y, 1);
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'd');
-        dataMap[ x ].splice(y + 1, 0, start[ 0 ]);
+        dataMap[x].splice(y + 1, 0, start[0]);
         break;
       case 'd':
         dx = x;
-        dy = y-1;
-        if(dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        dy = y - 1;
+        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
           return false;
         }
-        start = dataMap[ x ].splice(y, 1);
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'u');
-        dataMap[ x ].splice(y - 1, 0, start[ 0 ]);
+        dataMap[x].splice(y - 1, 0, start[0]);
         break;
       case 'r':
-        dx = x+1;
+        dx = x + 1;
         dy = y;
-        if(dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
           return false;
         }
-        start = dataMap[ x ].splice(y, 1);
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'l');
-        end = dataMap[ x + 1 ].splice(y, 1);
-        dataMap[ x + 1 ].splice(y, 0, start[ 0 ]);
-        dataMap[ x ].splice(y, 0, end[ 0 ]);
+        end = dataMap[x + 1].splice(y, 1);
+        dataMap[x + 1].splice(y, 0, start[0]);
+        dataMap[x].splice(y, 0, end[0]);
         break;
       case 'l':
-        dx = x-1;
+        dx = x - 1;
         dy = y;
-        if(dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
           return false;
         }
-        start = dataMap[ x ].splice(y, 1);
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'r');
-        end = dataMap[ x - 1 ].splice(y, 1);
-        dataMap[ x - 1 ].splice(y, 0, start[ 0 ]);
-        dataMap[ x ].splice(y, 0, end[ 0 ]);
+        end = dataMap[x - 1].splice(y, 1);
+        dataMap[x - 1].splice(y, 0, start[0]);
+        dataMap[x].splice(y, 0, end[0]);
         break;
       case null:
         dx = this.state.dx;
@@ -338,8 +316,8 @@ export default class Game extends Component {
     //this.check(x, y, i, d);
   }
 
-  check(){
-    const [ x, y, i, d ] = arguments;
+  check() {
+    const [x, y, i, d] = arguments;
     const { dataMap } = this.state;
     let start;
     let end;
@@ -349,39 +327,39 @@ export default class Game extends Component {
     switch (d) {
       case 'u':
         dx = x;
-        dy = y+1;
-        start = dataMap[ x ].splice(y, 1);
+        dy = y + 1;
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'd');
         animation = 'd';
-        dataMap[ x ].splice(y + 1, 0, start[ 0 ]);
+        dataMap[x].splice(y + 1, 0, start[0]);
         break;
       case 'd':
         dx = x;
-        dy = y-1;
-        start = dataMap[ x ].splice(y, 1);
+        dy = y - 1;
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'u');
         animation = 'u';
-        dataMap[ x ].splice(y - 1, 0, start[ 0 ]);
+        dataMap[x].splice(y - 1, 0, start[0]);
         break;
       case 'r':
-        dx = x+1;
+        dx = x + 1;
         dy = y;
-        start = dataMap[ x ].splice(y, 1);
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'l');
         animation = 'l';
-        end = dataMap[ x + 1 ].splice(y, 1);
-        dataMap[ x + 1 ].splice(y, 0, start[ 0 ]);
-        dataMap[ x ].splice(y, 0, end[ 0 ]);
+        end = dataMap[x + 1].splice(y, 1);
+        dataMap[x + 1].splice(y, 0, start[0]);
+        dataMap[x].splice(y, 0, end[0]);
         break;
       case 'l':
-        dx = x-1;
+        dx = x - 1;
         dy = y;
-        start = dataMap[ x ].splice(y, 1);
+        start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'r');
         animation = 'r';
-        end = dataMap[ x - 1 ].splice(y, 1);
-        dataMap[ x - 1 ].splice(y, 0, start[ 0 ]);
-        dataMap[ x ].splice(y, 0, end[ 0 ]);
+        end = dataMap[x - 1].splice(y, 1);
+        dataMap[x - 1].splice(y, 0, start[0]);
+        dataMap[x].splice(y, 0, end[0]);
         break;
     }
   }
@@ -393,10 +371,53 @@ export default class Game extends Component {
   //     });
   // }
 
+  async setDataMap() {
+    let dataMap = [];
+    const dataBg = await axios(`//localhost:3000/bg${this.state.level}`);
+    for (let col of dataBg.data) {
+      const coll = [];
+      for (let row of col) {
+        if (row !== 0) {
+          let num = this.random(1, 7);
+          const collLength = coll.length;
+          const rowLength = dataMap.length;
+        
+          if(collLength > 1 && rowLength < 2) {
+            while(num === coll[collLength-1] && num === coll[collLength-2]) {
+              num = this.random(1, 7);
+            }
+          } else if (rowLength > 1 && collLength < 2){
+            while(num === dataMap[rowLength-1][collLength] && num === dataMap[rowLength-2][collLength]) {
+              num = this.random(1, 7);
+            }
+          } else if (rowLength > 1 && collLength > 1){
+            while(num === coll[collLength-1] && num === coll[collLength-2] || num === dataMap[rowLength-1][collLength] && num === dataMap[rowLength-2][collLength]) {
+              num = this.random(1, 7);
+            }
+          }
+          // while(condition) {
+          //   num = this.random(1, 7);
+          // }
+          coll.push(num);
+        } else {
+          coll.push(0);
+        }
+      }
+      dataMap.push(coll);
+    }
+    this.setState({
+      dataMap
+    });
+  }
+
   componentDidMount() {
-    // this.setState({
-    //     dataMap: this.setDataMap()
-    // });
+    this.setDataMap();
+    // setTimeout(() => {
+    //   this.setState({
+    //     level:2
+    //   });
+    //   this.setDataMap();
+    // }, 3000);
   }
 
   // random (min, max) {
@@ -405,9 +426,9 @@ export default class Game extends Component {
 
   render() {
     return (
-      <this.Game>
-        <Map {...this.state} switch={this.switch.bind(this)}/>
-      </this.Game>
+      <GameStyled>
+        <Map {...this.state} switch={this.switch.bind(this)} />
+      </GameStyled>
     )
   }
 }
