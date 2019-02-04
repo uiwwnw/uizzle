@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 export default class Button extends Component {
-    constructor(props) {
-        super(props);
-        this.Button = styled(NavLink)`
+  constructor(props) {
+    super(props);
+    this.Button = styled(NavLink)`
             display: block;
             margin: auto;
             text-align: center;
@@ -19,20 +19,20 @@ export default class Button extends Component {
                 background: ${props => props.bg === undefined ? '#efefef' : '#999'};
             }
         `;
-    }
+  }
 
-    render() {
-        const text = this.props.text;
-        
-        return (
-            <this.Button bg={this.props.bg} to={this.props.to}>
-                {text}
-            </this.Button>
-        )
-    }
+  render() {
+    const text = this.props.text;
+
+    return (
+      <this.Button bg={this.props.bg} to={this.props.to}>
+        {text}
+      </this.Button>
+    )
+  }
 }
 
 Button.defaultProps = {
-    text: PropTypes.string,
-    to: PropTypes.string
+  text: PropTypes.string,
+  to: PropTypes.string
 };

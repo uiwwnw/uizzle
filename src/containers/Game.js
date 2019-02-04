@@ -80,7 +80,7 @@ class Map extends Component {
 
   render() {
     let view = <Components.Loading />
-    if(this.props.dataMap) {
+    if (this.props.dataMap) {
       view = this.props.dataMap.map((map, mapIdx) => {
         return (
           <Coll {...this.props} dataMap={map} key={mapIdx} x={mapIdx} />
@@ -382,17 +382,17 @@ export default class Game extends Component {
           let num = this.random(1, 7);
           const collLength = coll.length;
           const rowLength = dataMap.length;
-        
-          if(collLength > 1 && rowLength < 2) {
-            while(num === coll[collLength-1] && num === coll[collLength-2]) {
+
+          if (collLength > 1 && rowLength < 2) {
+            while (num === coll[collLength - 1] && num === coll[collLength - 2]) {
               num = this.random(1, 7);
             }
-          } else if (rowLength > 1 && collLength < 2){
-            while(num === dataMap[rowLength-1][collLength] && num === dataMap[rowLength-2][collLength]) {
+          } else if (rowLength > 1 && collLength < 2) {
+            while (num === dataMap[rowLength - 1][collLength] && num === dataMap[rowLength - 2][collLength]) {
               num = this.random(1, 7);
             }
-          } else if (rowLength > 1 && collLength > 1){
-            while(num === coll[collLength-1] && num === coll[collLength-2] || num === dataMap[rowLength-1][collLength] && num === dataMap[rowLength-2][collLength]) {
+          } else if (rowLength > 1 && collLength > 1) {
+            while (num === coll[collLength - 1] && num === coll[collLength - 2] || num === dataMap[rowLength - 1][collLength] && num === dataMap[rowLength - 2][collLength]) {
               num = this.random(1, 7);
             }
           }

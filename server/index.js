@@ -8,7 +8,7 @@ var config = require('../config');
 var MongoClient = require('mongodb').MongoClient;
 
 
-MongoClient.connect(config.dburl, function(err, database) {
+MongoClient.connect(config.dburl, function (err, database) {
   var myAwesomeDB = database.db('parkprika');
   // var jordan = { name: 'Jordan', age: 16, gender: 'M' };
   // var amanda = { name: 'Amanda', age: 17, gender: 'F' };
@@ -33,7 +33,7 @@ MongoClient.connect(config.dburl, function(err, database) {
 });
 
 app.use(express.static('public'));
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
 });
 
@@ -42,6 +42,6 @@ app.get('*', function(req, res) {
 //   response.sendFile(path.resolve(__dirname, '../public', 'index.html'))
 // })
 
-app.listen(8800, function() {
+app.listen(8800, function () {
   console.log('Example app listening on port 8800!');
 });

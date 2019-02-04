@@ -7,13 +7,13 @@ const StartStyled = styled.section`
             display: flex;
             align-items: center;
         `;
-        
+
 export default class Start extends Component {
   constructor(props) {
     super(props);
     const { id, profile_image, nickname, point } = localStorage;
     this.state = { id, profile_image, nickname, point };
-    
+
   }
 
   componentDidMount() {
@@ -47,21 +47,21 @@ export default class Start extends Component {
       // 카카오 로그인 버튼을 생성합니다.
       Kakao.Auth.createLoginButton({
         container: '#kakao-login-btn',
-        success: function(authObj) {
+        success: function (authObj) {
           // 로그인 성공시, API를 호출합니다.
           Kakao.API.request({
             url: '/v2/user/me',
-            success: function(res) {
+            success: function (res) {
               // const data = res;
               const { id, properties } = res;
               userInfo(id, properties.profile_image, properties.nickname);
             },
-            fail: function(error) {
+            fail: function (error) {
               alert(JSON.stringify(error));
             },
           });
         },
-        fail: function(err) {
+        fail: function (err) {
           alert(JSON.stringify(err));
         },
       });

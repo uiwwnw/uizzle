@@ -6,15 +6,15 @@ font-size: 30px;
 `;
 
 export default class Loading extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render() {
-        return (
-            <LoadingStyled>
-                loading
+  render() {
+    return (
+      <LoadingStyled>
+        loading
             </LoadingStyled>
-        )
-    }
+    )
+  }
 }

@@ -3,7 +3,7 @@ import Cell from './Cell';
 import Loading from './Loading';
 
 export {
-    Button,
-    Cell,
-    Loading,
+  Button,
+  Cell,
+  Loading,
 }
