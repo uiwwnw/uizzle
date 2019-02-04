@@ -5,17 +5,17 @@ import styled from 'styled-components';
 import "@babel/polyfill";
 
 const IStyled = styled.i`
-      /* flex: 1; */
-      width: 10vmin;
-      height: 10vmin;
-      color: #fff;
-      line-height: 10vmin;
-      text-align: center;
-      border: 1px solid #000;
-      box-sizing: border-box;
-      font-style: normal;
-      background: #000;
-    `;
+  /* flex: 1; */
+  width: 10vmin;
+  height: 10vmin;
+  color: #fff;
+  line-height: 10vmin;
+  text-align: center;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  font-style: normal;
+  background: #000;
+`;
 class Row extends Component {
   constructor(props) {
     super(props);
@@ -40,9 +40,9 @@ class Row extends Component {
   }
 }
 const CollStyled = styled.div`
-      display: flex;
-      flex-direction: column-reverse;
-    `;
+  display: flex;
+  flex-direction: column-reverse;
+`;
 class Coll extends Component {
   constructor(props) {
     super(props);
@@ -70,8 +70,8 @@ class Coll extends Component {
   }
 }
 const MapStyled = styled.div`
-    display: flex;
-  `;
+  display: flex;
+`;
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -97,133 +97,133 @@ class Map extends Component {
 }
 
 const GameStyled = styled.section`
-      user-select: none;
-      
-      button {
-        width: 10vmin;
-        height: 10vmin;
-        margin: 0;
-        padding: 0;
-        border: 1px solid #000;
-        transition: .3s transform;
-        /* animation: select .4s; */
-        &:active {
-            transform: scale(1.1);
-        };
+  user-select: none;
   
-        &[data-animation="select"] {
-            animation: select .3s;
-        };
-        &[data-animation="u"] {
-            /* transform: translateY(-10vmin); */
-            animation: u .3s;
-        }
-        &[data-animation="d"] {
-            /* transform: translateY(10vmin); */
-            animation: d .3s;
-        }
-        &[data-animation="l"] {
-            /* transform: translateX(-10vmin); */
-            animation: l .3s;
-        }
-        &[data-animation="r"] {
-            /* transform: translateX(10vmin); */
-            animation: r .3s;
-        }
-        
-        &[data-icon="home"] {
-          background: yellow;
-          
-          svg {
-            color: black;
-          }
-        }
-        
-        &[data-icon="wifi"] {
-          background: green;
-        }
+  button {
+    width: 10vmin;
+    height: 10vmin;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #000;
+    transition: .3s transform;
+    /* animation: select .4s; */
+    &:active {
+        transform: scale(1.1);
+    };
+
+    &[data-animation="select"] {
+        animation: select .3s;
+    };
+    &[data-animation="u"] {
+        /* transform: translateY(-10vmin); */
+        animation: u .3s;
+    }
+    &[data-animation="d"] {
+        /* transform: translateY(10vmin); */
+        animation: d .3s;
+    }
+    &[data-animation="l"] {
+        /* transform: translateX(-10vmin); */
+        animation: l .3s;
+    }
+    &[data-animation="r"] {
+        /* transform: translateX(10vmin); */
+        animation: r .3s;
+    }
     
-        &[data-icon="address-book"] {
-          background: blue;
-        }
-    
-        &[data-icon="camera"] {
-          background: orange;
-        }
-        
-        &[data-icon="search"] {
-          background: gray;
-        }    
-         
-        &[data-icon="edit"] {
-          background: white;
-          
-          svg {
-            color: black;
-          }
-        }  
-        
-        &[data-icon="volume-up"] {
-          background: red;
-        }
-    
-        svg {
-          pointer-events: none;
-          color: #fff;
-        }
-        
-        @keyframes select {
-            0%{
-                transform: scale(0);
-            }
-            10%{
-                transform: scale(.9);
-            }
-            50%{
-                transform: scale(1.1) rotate(30deg);
-            }
-            80%{
-                transform: scale(1.1) rotate(-30deg);
-            }
-            100%{
-                transform: scale(1) rotate(0);
-            }
-        }
-        
-        @keyframes u {
-            0%{
-                transform: translateY(10vmin);
-            }
-            100%{
-                transform: translateY(0);
-            }
-        }
-        @keyframes d {
-            0%{
-                transform: translateY(-10vmin);
-            }
-            100%{
-                transform: translateY(0);
-            }
-        }
-        @keyframes l {
-            0%{
-                transform: translateX(10vmin);
-            }
-            100%{
-                transform: translateX(0);
-            }
-        }
-        @keyframes r {
-            0%{
-                transform: translateX(-10vmin);
-            }
-            100%{
-                transform: translateX(0);
-            }
-        }
+    &[data-icon="home"] {
+      background: yellow;
+      
+      svg {
+        color: black;
       }
-    `;
+    }
+    
+    &[data-icon="wifi"] {
+      background: green;
+    }
+
+    &[data-icon="address-book"] {
+      background: blue;
+    }
+
+    &[data-icon="camera"] {
+      background: orange;
+    }
+    
+    &[data-icon="search"] {
+      background: gray;
+    }    
+      
+    &[data-icon="edit"] {
+      background: white;
+      
+      svg {
+        color: black;
+      }
+    }  
+    
+    &[data-icon="volume-up"] {
+      background: red;
+    }
+
+    svg {
+      pointer-events: none;
+      color: #fff;
+    }
+    
+    @keyframes select {
+      0%{
+          transform: scale(0);
+      }
+      10%{
+          transform: scale(.9);
+      }
+      50%{
+          transform: scale(1.1) rotate(30deg);
+      }
+      80%{
+          transform: scale(1.1) rotate(-30deg);
+      }
+      100%{
+          transform: scale(1) rotate(0);
+      }
+    }
+    
+    @keyframes u {
+        0%{
+            transform: translateY(10vmin);
+        }
+        100%{
+            transform: translateY(0);
+        }
+    }
+    @keyframes d {
+        0%{
+            transform: translateY(-10vmin);
+        }
+        100%{
+            transform: translateY(0);
+        }
+    }
+    @keyframes l {
+        0%{
+            transform: translateX(10vmin);
+        }
+        100%{
+            transform: translateX(0);
+        }
+    }
+    @keyframes r {
+        0%{
+            transform: translateX(-10vmin);
+        }
+        100%{
+            transform: translateX(0);
+        }
+    }
+  }
+`;
 
 export default class Game extends Component {
   constructor(props) {

@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import { postUser, getUser } from '../../services/index';
 
 const StartStyled = styled.section`
-            display: flex;
-            align-items: center;
-        `;
+  display: flex;
+  align-items: center;
+  background: red;
+`;
 
 export default class Start extends Component {
   constructor(props) {

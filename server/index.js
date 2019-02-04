@@ -32,14 +32,14 @@ MongoClient.connect(config.dburl, function (err, database) {
   database.close();
 });
 
-app.use(express.static('public'));
+app.use(express.static('dist'));
 app.get('*', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
 });
 
 
 // app.get('*', function (request, response){
-//   response.sendFile(path.resolve(__dirname, '../public', 'index.html'))
+//   response.sendFile(path.resolve(__dirname, '../dist', 'index.html'))
 // })
 
 app.listen(8800, function () {

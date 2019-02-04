@@ -11,7 +11,7 @@ module.exports = {
   context: path.resolve(__dirname),
   entry: './App.js',
   output: {
-    path: path.resolve(__dirname, 'dist/js'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
   devServer: {
