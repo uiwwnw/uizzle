@@ -314,14 +314,40 @@ export default class Game extends Component {
       dy,
       animation
     });
-    this.onCheck(this);
+    this.onCheck();
     // this.forceUpdate();
     // console.log(this.state.dataMap[x]);
     //this.check(x, y, i, d);
   }
 
   onCheck() {
-    
+    let {dataMap} = this.state;
+    let switchOn = 0;
+    const newMap = dataMap.map((row) => {
+      return row.filter((col, index, arr) => {
+        if(col > 0) {
+          if(index < 6 && col === arr[index + 1] && col === arr[index + 2] && col === arr[index + 3] && col === arr[index + 4]) {
+            switchOn = 5;
+          } else if(index < 7 && col === arr[index + 1] && col === arr[index + 2] && col === arr[index + 3]) {
+            switchOn = 4;
+          } else if(index < 8 && col === arr[index + 1] && col === arr[index + 2]) {
+            switchOn = 3;
+          }
+          if(switchOn) {
+            switchOn--;
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      });
+    });
+    this.setState({
+      dataMap : newMap
+    });
+    console.log(newMap);
   }
 
   // check() {
@@ -418,8 +444,9 @@ export default class Game extends Component {
     });
   }
 
-  componentDidMount() {
-    this.setDataMap();
+  async componentDidMount() {
+    await this.setDataMap();
+    this.onCheck();
     // setTimeout(() => {
     //   this.setState({
     //     level:2
