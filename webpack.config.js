@@ -1,14 +1,21 @@
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// the path(s) that should be cleaned
+let pathsToClean = [
+  'dist'
+]
 
 module.exports = {
-  context: path.resolve(__dirname, './'),
+  context: path.resolve(__dirname),
   entry: './App.js',
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: './js/bundle.js'
+    path: path.resolve(__dirname, 'dist/js'),
+    filename: 'bundle.js'
   },
   devServer: {
-    contentBase: path.join(__dirname, 'public'),
+    contentBase: path.join(__dirname, 'dist'),
     inline: true,
     port: 8800,
     hot: true,
@@ -49,15 +56,20 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        query: {
-          cacheDirectory: true,
-          presets: ['react']
+        use: {
+          loader: 'babel-loader'
         }
       }
     ]
   },
-  performance: { hints: false }
+  performance: { hints: false },
+  plugins: [
+    new CleanWebpackPlugin(pathsToClean),
+    new HtmlWebpackPlugin({  // Also generate a test.html
+      filename: 'index.html',
+      template: 'public/index.html'
+    }),
+  ]
 };

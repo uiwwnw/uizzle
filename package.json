@@ -4,11 +4,10 @@
   "description": "",
   "main": "App.js",
   "scripts": {
-    "start": "npm run clean && webpack -p && npm run server",
+    "start": "npm run build && npm run server",
     "server": "node server/index",
-    "clean": "rm -rf public/*/",
-    "test": "npm run clean && (json-server --watch data/index.json & webpack-dev-server --inline --hot)",
-    "build": "webpack -p"
+    "test": "json-server --watch data/index.json & webpack-dev-server --inline --hot",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -27,35 +26,41 @@
   },
   "homepage": "https://github.com/uiwwnw/uizzle#readme",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.8",
-    "@fortawesome/free-solid-svg-icons": "^5.5.0",
-    "@fortawesome/react-fontawesome": "^0.1.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.14",
+    "@fortawesome/free-solid-svg-icons": "^5.7.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.18.0",
-    "babel": "^6.23.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.5",
+    "clean-webpack-plugin": "^1.0.1",
     "css-loader": "^0.28.11",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "file-loader": "^1.1.11",
-    "json-server": "^0.14.0",
-    "node-sass": "^4.9.4",
+    "html-webpack-plugin": "^3.2.0",
+    "json-server": "^0.14.2",
+    "mongodb": "^3.1.13",
+    "node-sass": "^4.11.0",
     "normalize.css": "^8.0.1",
     "path": "^0.12.7",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "react-jsx": "^1.0.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
-    "styled-components": "^4.1.1",
+    "styled-components": "^4.1.3",
+    "terser": "^3.14.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.21.0"
+    "webpack": "^4.29.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "@babel/core": "^7.2.2",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import * as Components from '../components/Components';
 import styled from 'styled-components';
+import "@babel/polyfill";
 
 const IStyled = styled.i`
       /* flex: 1; */
