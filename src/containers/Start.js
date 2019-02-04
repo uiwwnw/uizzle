@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as Components from '../components/Components';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { postUser, getUser } from '../../services/index';
 
 const StartStyled = styled.section`
@@ -18,29 +19,29 @@ export default class Start extends Component {
   }
 
   componentDidMount() {
-    if (this.state.id !== undefined) {
-      location.pathname = '/game';
-    }
-    const userInfo = (...res) => {
-      getUser(res)
-        .then((getRes) => {
-          if (getRes.data.length === 0) {
-            postUser(res)
-              .then((postRes) => {
-                console.log(postRes + '포스트성공');
-              })
-              .catch((postRes) => {
-                console.log(postRes + '포스트실패');
-              });
-          } else {
-            location.pathname = '/game';
-            console.log(getRes + '겟성공');
-          }
-        })
-        .catch((getRes) => {
-          console.log(getRes + '겟실패');
-        });
-    };
+    // if (this.state.id !== undefined) {
+    //   location.pathname = '/game';
+    // }
+    // const userInfo = (...res) => {
+    //   getUser(res)
+    //     .then((getRes) => {
+    //       if (getRes.data.length === 0) {
+    //         postUser(res)
+    //           .then((postRes) => {
+    //             console.log(postRes + '포스트성공');
+    //           })
+    //           .catch((postRes) => {
+    //             console.log(postRes + '포스트실패');
+    //           });
+    //       } else {
+    //         location.pathname = '/game';
+    //         console.log(getRes + '겟성공');
+    //       }
+    //     })
+    //     .catch((getRes) => {
+    //       console.log(getRes + '겟실패');
+    //     });
+    // };
 
     const kakaoLogin = (() => {
       // 사용할 앱의 JavaScript 키를 설정해 주세요.
@@ -73,6 +74,7 @@ export default class Start extends Component {
     return (
       <StartStyled>
         {/* <components.Button text="Start" to="/game" /> */}
+        <Link to="/game">game</Link>
         <button id="kakao-login-btn"></button>
       </StartStyled>
     );

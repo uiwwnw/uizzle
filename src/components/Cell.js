@@ -144,7 +144,7 @@ export default class Cell extends Component {
   down(e) {
     this.d = null;
     this.el = e.target;
-    this.props.switch(this.props.dx, this.props.dy, this.state.icon, null);
+    this.props.onMove(this.props.dx, this.props.dy, this.state.icon, null);
     this.setState({
       animation: 'select'
     });
@@ -190,7 +190,7 @@ export default class Cell extends Component {
       //this.setState({
       //  animation: this.d,
       //});
-      this.props.switch(this.props.x, this.props.y, this.state.icon, this.d);
+      this.props.onMove(this.props.x, this.props.y, this.state.icon, this.d);
       //} else {
       //  this.setState({
       //    animation: 'select'

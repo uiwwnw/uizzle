@@ -98,6 +98,7 @@ class Map extends Component {
 
 const GameStyled = styled.section`
   user-select: none;
+  background: blue;
   
   button {
     width: 10vmin;
@@ -236,6 +237,7 @@ export default class Game extends Component {
       animation: null
     };
     this.setDataMap = this.setDataMap.bind(this);
+    this.onCheck = this.onCheck.bind(this);
     // this.renderMap.apply(this);
     // console.log(dataMap);
   };
@@ -245,7 +247,7 @@ export default class Game extends Component {
   }
 
 
-  switch() {
+  onMove() {
     const [x, y, i, d] = arguments;
     const { dataMap } = this.state;
     let start;
@@ -312,58 +314,63 @@ export default class Game extends Component {
       dy,
       animation
     });
+    this.onCheck(this);
     // this.forceUpdate();
     // console.log(this.state.dataMap[x]);
     //this.check(x, y, i, d);
   }
 
-  check() {
-    const [x, y, i, d] = arguments;
-    const { dataMap } = this.state;
-    let start;
-    let end;
-    let animation;
-    let dx;
-    let dy;
-    switch (d) {
-      case 'u':
-        dx = x;
-        dy = y + 1;
-        start = dataMap[x].splice(y, 1);
-        //endEl.setAttribute('data-animation', 'd');
-        animation = 'd';
-        dataMap[x].splice(y + 1, 0, start[0]);
-        break;
-      case 'd':
-        dx = x;
-        dy = y - 1;
-        start = dataMap[x].splice(y, 1);
-        //endEl.setAttribute('data-animation', 'u');
-        animation = 'u';
-        dataMap[x].splice(y - 1, 0, start[0]);
-        break;
-      case 'r':
-        dx = x + 1;
-        dy = y;
-        start = dataMap[x].splice(y, 1);
-        //endEl.setAttribute('data-animation', 'l');
-        animation = 'l';
-        end = dataMap[x + 1].splice(y, 1);
-        dataMap[x + 1].splice(y, 0, start[0]);
-        dataMap[x].splice(y, 0, end[0]);
-        break;
-      case 'l':
-        dx = x - 1;
-        dy = y;
-        start = dataMap[x].splice(y, 1);
-        //endEl.setAttribute('data-animation', 'r');
-        animation = 'r';
-        end = dataMap[x - 1].splice(y, 1);
-        dataMap[x - 1].splice(y, 0, start[0]);
-        dataMap[x].splice(y, 0, end[0]);
-        break;
-    }
+  onCheck() {
+    
   }
+
+  // check() {
+  //   const [x, y, i, d] = arguments;
+  //   const { dataMap } = this.state;
+  //   let start;
+  //   let end;
+  //   let animation;
+  //   let dx;
+  //   let dy;
+  //   switch (d) {
+  //     case 'u':
+  //       dx = x;
+  //       dy = y + 1;
+  //       start = dataMap[x].splice(y, 1);
+  //       //endEl.setAttribute('data-animation', 'd');
+  //       animation = 'd';
+  //       dataMap[x].splice(y + 1, 0, start[0]);
+  //       break;
+  //     case 'd':
+  //       dx = x;
+  //       dy = y - 1;
+  //       start = dataMap[x].splice(y, 1);
+  //       //endEl.setAttribute('data-animation', 'u');
+  //       animation = 'u';
+  //       dataMap[x].splice(y - 1, 0, start[0]);
+  //       break;
+  //     case 'r':
+  //       dx = x + 1;
+  //       dy = y;
+  //       start = dataMap[x].splice(y, 1);
+  //       //endEl.setAttribute('data-animation', 'l');
+  //       animation = 'l';
+  //       end = dataMap[x + 1].splice(y, 1);
+  //       dataMap[x + 1].splice(y, 0, start[0]);
+  //       dataMap[x].splice(y, 0, end[0]);
+  //       break;
+  //     case 'l':
+  //       dx = x - 1;
+  //       dy = y;
+  //       start = dataMap[x].splice(y, 1);
+  //       //endEl.setAttribute('data-animation', 'r');
+  //       animation = 'r';
+  //       end = dataMap[x - 1].splice(y, 1);
+  //       dataMap[x - 1].splice(y, 0, start[0]);
+  //       dataMap[x].splice(y, 0, end[0]);
+  //       break;
+  //   }
+  // }
 
   // aaa(){
   //     const dataMap = this.setDataMap();
@@ -428,7 +435,7 @@ export default class Game extends Component {
   render() {
     return (
       <GameStyled>
-        <Map {...this.state} switch={this.switch.bind(this)} />
+        <Map {...this.state} onMove={this.onMove.bind(this)} />
       </GameStyled>
     )
   }

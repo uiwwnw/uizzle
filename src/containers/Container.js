@@ -9,24 +9,39 @@ import Start from "./Start";
 function Container({ location }) {
   return (
     <Wrapper>
-      <TransitionGroup>
+      <TransitionGroup className="transition-group">
         <CSSTransition
           key={location.key}
           timeout={{ enter: 3000, exit: 3000 }}
           classNames={'fade'}
         >
-          <section className="route-section">
+          <div className="route-section">
             <Switch location={location}>
               <Route exact path="/" component={Start} />
               <Route path="/Game" component={Game} />
             </Switch>
-          </section>
+          </div>
         </CSSTransition>
       </TransitionGroup>
     </Wrapper>
   );
 }
 const Wrapper = styled.div`
+  .fade-enter {
+    opacity: 0.01;
+  }
+  .fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+  .fade-exit {
+    opacity: 1;
+  }
+    
+  .fade-exit.fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+  }
   div.transition-group {
     position: relative;
   }

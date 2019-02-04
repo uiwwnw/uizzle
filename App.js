@@ -17,23 +17,6 @@ const AppStyled = styled.main`
   height: 100vh;
   align-items: center;
   background: #fefefe;
-  .fade-enter {
-    opacity: 0.01;
-  }
-
-  .fade-enter.fade-enter-active {
-      opacity: 1;
-      transition: opacity 300ms ease-in;
-  }
-
-  .fade-exit {
-      opacity: 1;
-  }
-
-  .fade-exit.fade-exit-active {
-      opacity: 0.01;
-      transition: opacity 300ms ease-in;
-  }
 
   > div {
     margin: auto;
