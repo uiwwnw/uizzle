@@ -99,6 +99,15 @@ class Map extends Component {
 const GameStyled = styled.section`
   user-select: none;
   background: blue;
+
+  strong {
+    position: fixed;
+    right: 0;
+    top: 0;
+    padding: 10px;
+    border: 1px solid #000; 
+    background: #fff;
+  }
   
   button {
     width: 10vmin;
@@ -234,10 +243,12 @@ export default class Game extends Component {
       dataMap: null,
       dx: null,
       dy: null,
+      score: 0,
       animation: null
     };
     this.setDataMap = this.setDataMap.bind(this);
     this.onCheck = this.onCheck.bind(this);
+    this.setScore = this.setScore.bind(this);
     // this.renderMap.apply(this);
     // console.log(dataMap);
   };
@@ -246,6 +257,12 @@ export default class Game extends Component {
     return Math.floor(Math.random() * max + min);
   }
 
+  setScore(score) {
+    score += this.state.score;
+    this.setState({
+      score
+    });
+  }
 
   onMove() {
     const [x, y, i, d] = arguments;
@@ -346,12 +363,15 @@ export default class Game extends Component {
             rows = colIndex;
           }
           if (colSwitch && !rowSwitch) {
+            this.setScore(Math.pow(colSwitch, colSwitch));
             colSwitch--;
             return false;
           } else if (!colSwitch && rowSwitch && rows === colIndex) {
+            this.setScore(Math.pow(rowSwitch, rowSwitch));
             rowSwitch--;
             return false;
           } else if (colSwitch && rowSwitch) {
+            this.setScore(Math.pow(Math.max(colSwitch, rowSwitch), Math.max(colSwitch, rowSwitch)));
             colSwitch--;
             rowSwitch--;
             return false;
@@ -486,6 +506,7 @@ export default class Game extends Component {
   render() {
     return (
       <GameStyled>
+        <strong>{this.state.score}</strong>
         <Map {...this.state} onMove={this.onMove.bind(this)} />
       </GameStyled>
     )
