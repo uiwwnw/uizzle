@@ -321,20 +321,39 @@ export default class Game extends Component {
   }
 
   onCheck() {
-    let {dataMap} = this.state;
-    let switchOn = 0;
-    const newMap = dataMap.map((row) => {
-      return row.filter((col, index, arr) => {
-        if(col > 0) {
-          if(index < 6 && col === arr[index + 1] && col === arr[index + 2] && col === arr[index + 3] && col === arr[index + 4]) {
-            switchOn = 5;
-          } else if(index < 7 && col === arr[index + 1] && col === arr[index + 2] && col === arr[index + 3]) {
-            switchOn = 4;
-          } else if(index < 8 && col === arr[index + 1] && col === arr[index + 2]) {
-            switchOn = 3;
+    let { dataMap } = this.state;
+    let colSwitch = 0;
+    let rowSwitch = 0;
+    let rows = null;
+    const newMap = dataMap.map((row, rowIndex) => {
+      return row.filter((col, colIndex, arr) => {
+        if (col > 0) {
+          if (colIndex < 6 && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3] && col === arr[colIndex + 4]) {
+            colSwitch = 5;
+          } else if (colIndex < 7 && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3]) {
+            colSwitch = 4;
+          } else if (colIndex < 8 && col === arr[colIndex + 1] && col === arr[colIndex + 2]) {
+            colSwitch = 3;
           }
-          if(switchOn) {
-            switchOn--;
+          if (rowIndex < 6 && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex] && col === dataMap[rowIndex + 4][colIndex]) {
+            rowSwitch = 5;
+            rows = colIndex;
+          } else if (rowIndex < 7 && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex]) {
+            rowSwitch = 4;
+            rows = colIndex;
+          } else if (rowIndex < 8 && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex]) {
+            rowSwitch = 3;
+            rows = colIndex;
+          }
+          if (colSwitch && !rowSwitch) {
+            colSwitch--;
+            return false;
+          } else if (!colSwitch && rowSwitch && rows === colIndex) {
+            rowSwitch--;
+            return false;
+          } else if (colSwitch && rowSwitch) {
+            colSwitch--;
+            rowSwitch--;
             return false;
           } else {
             return true;
@@ -344,10 +363,14 @@ export default class Game extends Component {
         }
       });
     });
-    this.setState({
-      dataMap : newMap
+    newMap.map((row)=>{
+      while(row.length !== 10) {
+        row.push(this.random(1, 7));
+      }
     });
-    console.log(newMap);
+    this.setState({
+      dataMap: newMap
+    });
   }
 
   // check() {
