@@ -322,8 +322,8 @@ export default class Game extends Component {
 
   onCheck() {
     let { dataMap } = this.state;
-    let colSwitch = 0;
-    let rowSwitch = 0;
+    let colSwitch = null;
+    let rowSwitch = null;
     let rows = null;
     const newMap = dataMap.map((row, rowIndex) => {
       return row.filter((col, colIndex, arr) => {
@@ -365,7 +365,8 @@ export default class Game extends Component {
     });
     newMap.map((row)=>{
       while(row.length !== 10) {
-        row.push(this.random(1, 7));
+        colSwitch = 0;
+        row.push(this.random(0, 7));
       }
     });
     this.setState({
