@@ -345,20 +345,20 @@ export default class Game extends Component {
     const newMap = dataMap.map((row, rowIndex) => {
       return row.filter((col, colIndex, arr) => {
         if (col > 0) {
-          if (colIndex < 6 && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3] && col === arr[colIndex + 4]) {
+          if (colIndex < (dataMap[0].length - 4) && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3] && col === arr[colIndex + 4]) {
             colSwitch = 5;
-          } else if (colIndex < 7 && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3]) {
+          } else if (colIndex < (dataMap[0].length - 3) && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3]) {
             colSwitch = 4;
-          } else if (colIndex < 8 && col === arr[colIndex + 1] && col === arr[colIndex + 2]) {
+          } else if (colIndex < (dataMap[0].length - 2) && col === arr[colIndex + 1] && col === arr[colIndex + 2]) {
             colSwitch = 3;
           }
-          if (rowIndex < 6 && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex] && col === dataMap[rowIndex + 4][colIndex]) {
+          if (rowIndex < (dataMap.length - 4) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex] && col === dataMap[rowIndex + 4][colIndex]) {
             rowSwitch = 5;
             rows = colIndex;
-          } else if (rowIndex < 7 && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex]) {
+          } else if (rowIndex < (dataMap.length - 3) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex]) {
             rowSwitch = 4;
             rows = colIndex;
-          } else if (rowIndex < 8 && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex]) {
+          } else if (rowIndex < (dataMap.length - 2) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex]) {
             rowSwitch = 3;
             rows = colIndex;
           }
@@ -383,8 +383,8 @@ export default class Game extends Component {
         }
       });
     });
-    newMap.map((row)=>{
-      while(row.length !== 10) {
+    newMap.map((row, idx)=>{
+      while(row.length !== dataMap[idx].length) {
         colSwitch = 0;
         row.push(this.random(0, 7));
       }
@@ -393,61 +393,6 @@ export default class Game extends Component {
       dataMap: newMap
     });
   }
-
-  // check() {
-  //   const [x, y, i, d] = arguments;
-  //   const { dataMap } = this.state;
-  //   let start;
-  //   let end;
-  //   let animation;
-  //   let dx;
-  //   let dy;
-  //   switch (d) {
-  //     case 'u':
-  //       dx = x;
-  //       dy = y + 1;
-  //       start = dataMap[x].splice(y, 1);
-  //       //endEl.setAttribute('data-animation', 'd');
-  //       animation = 'd';
-  //       dataMap[x].splice(y + 1, 0, start[0]);
-  //       break;
-  //     case 'd':
-  //       dx = x;
-  //       dy = y - 1;
-  //       start = dataMap[x].splice(y, 1);
-  //       //endEl.setAttribute('data-animation', 'u');
-  //       animation = 'u';
-  //       dataMap[x].splice(y - 1, 0, start[0]);
-  //       break;
-  //     case 'r':
-  //       dx = x + 1;
-  //       dy = y;
-  //       start = dataMap[x].splice(y, 1);
-  //       //endEl.setAttribute('data-animation', 'l');
-  //       animation = 'l';
-  //       end = dataMap[x + 1].splice(y, 1);
-  //       dataMap[x + 1].splice(y, 0, start[0]);
-  //       dataMap[x].splice(y, 0, end[0]);
-  //       break;
-  //     case 'l':
-  //       dx = x - 1;
-  //       dy = y;
-  //       start = dataMap[x].splice(y, 1);
-  //       //endEl.setAttribute('data-animation', 'r');
-  //       animation = 'r';
-  //       end = dataMap[x - 1].splice(y, 1);
-  //       dataMap[x - 1].splice(y, 0, start[0]);
-  //       dataMap[x].splice(y, 0, end[0]);
-  //       break;
-  //   }
-  // }
-
-  // aaa(){
-  //     const dataMap = this.setDataMap();
-  //     this.setState({
-  //         dataMap
-  //     });
-  // }
 
   async setDataMap() {
     let dataMap = [];
@@ -459,6 +404,7 @@ export default class Game extends Component {
           let num = this.random(1, 7);
           const collLength = coll.length;
           const rowLength = dataMap.length;
+          console.log(collLength, rowLength);
 
           if (collLength > 1 && rowLength < 2) {
             while (num === coll[collLength - 1] && num === coll[collLength - 2]) {

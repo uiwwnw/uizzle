@@ -23,8 +23,6 @@ const AppStyled = styled.main`
   }
   
   section {
-    width: 100vmin;
-    height: 100vmin;
     margin: auto;
   }
 
