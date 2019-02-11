@@ -244,6 +244,7 @@ export default class Game extends Component {
       dx: null,
       dy: null,
       score: 0,
+      goal: 300,
       animation: null
     };
     this.setDataMap = this.setDataMap.bind(this);
@@ -262,6 +263,13 @@ export default class Game extends Component {
     this.setState({
       score
     });
+    if(this.state.score > this.state.goal) {
+      this.setState({
+        level: this.state.level+1,
+        score: 0,
+      });
+      this.setDataMap();
+    }
   }
 
   onMove() {
@@ -404,7 +412,6 @@ export default class Game extends Component {
           let num = this.random(1, 7);
           const collLength = coll.length;
           const rowLength = dataMap.length;
-          console.log(collLength, rowLength);
 
           if (collLength > 1 && rowLength < 2) {
             while (num === coll[collLength - 1] && num === coll[collLength - 2]) {
