@@ -7,7 +7,7 @@ import { createStore } from 'redux';
 const initialState = {
   // ui theme
   userName: '',
-  level: 12,
+  level: 1,
   score: {},
   //theme: localStorage.theme?localStorage.theme:process.env.THEME, // true === white
   //userScale: (localStorage.userScale?localStorage.userScale:process.env.USERSCALE),
