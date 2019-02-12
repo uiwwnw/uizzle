@@ -74,7 +74,7 @@ export default class Start extends Component {
     return (
       <StartStyled>
         {/* <components.Button text="Start" to="/game" /> */}
-        <Link to="/game">game</Link>
+        <Link to="/stage">game</Link>
         <button id="kakao-login-btn"></button>
       </StartStyled>
     );

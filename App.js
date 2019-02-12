@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import styled from 'styled-components';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit } from '@fortawesome/free-solid-svg-icons';
 import 'normalize.css';
+import store from './src/redux/index';
 
 library.add(faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit);
 const AppStyled = styled.main`
@@ -54,4 +55,10 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const render = () => {
+  ReactDOM.render(<App store={store}/>, document.getElementById('root'));
+};
+
+store.subscribe(render);
+render();
+

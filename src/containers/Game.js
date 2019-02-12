@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as Components from '../components/Components';
 import styled from 'styled-components';
 import "@babel/polyfill";
+import store from '../redux/index';
 
 const IStyled = styled.i`
   /* flex: 1; */
@@ -239,7 +240,7 @@ export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      level: 1,
+      level: store.getState().level,
       dataMap: null,
       dx: null,
       dy: null,
@@ -264,11 +265,12 @@ export default class Game extends Component {
       score
     });
     if(this.state.score > this.state.goal) {
-      this.setState({
-        level: this.state.level+1,
-        score: 0,
+      const nextLevel = this.state.level+1;
+      store.dispatch({
+        type: 'setLevel',
+        level: nextLevel
       });
-      this.setDataMap();
+      this.props.history.push('/stage');
     }
   }
 
@@ -346,6 +348,7 @@ export default class Game extends Component {
   }
 
   onCheck() {
+    let switchs = false;
     let { dataMap } = this.state;
     let colSwitch = null;
     let rowSwitch = null;
@@ -393,13 +396,18 @@ export default class Game extends Component {
     });
     newMap.map((row, idx)=>{
       while(row.length !== dataMap[idx].length) {
-        colSwitch = 0;
+        switchs = true;
         row.push(this.random(0, 7));
       }
     });
+
     this.setState({
       dataMap: newMap
     });
+
+    if(switchs) {
+      this.onCheck();
+    }
   }
 
   async setDataMap() {

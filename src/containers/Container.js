@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
+import Stage from "./Stage";
 import Game from "./Game";
 import Start from "./Start";
 
@@ -18,7 +19,8 @@ function Container({ location }) {
           <div className="route-section">
             <Switch location={location}>
               <Route exact path="/" component={Start} />
-              <Route path="/Game" component={Game} />
+              <Route path="/game" component={Game} />
+              <Route path="/stage" component={Stage} />
             </Switch>
           </div>
         </CSSTransition>
