@@ -72,7 +72,10 @@ class Coll extends Component {
 }
 const MapStyled = styled.div`
   display: flex;
+  height: 100vh;
+  align-items: center;
 `;
+
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -99,11 +102,10 @@ class Map extends Component {
 
 const GameStyled = styled.section`
   user-select: none;
-  background: blue;
 
   strong {
-    position: fixed;
-    right: 0;
+    position: absolute;
+    left: 100%;
     top: 0;
     padding: 10px;
     border: 1px solid #000; 
@@ -239,13 +241,14 @@ const GameStyled = styled.section`
 export default class Game extends Component {
   constructor(props) {
     super(props);
+    const { level } = store.getState();
     this.state = {
-      level: store.getState().level,
+      level: level,
       dataMap: null,
       dx: null,
       dy: null,
       score: 0,
-      goal: 300,
+      goal: 1000 * level,
       animation: null
     };
     this.setDataMap = this.setDataMap.bind(this);
@@ -264,7 +267,7 @@ export default class Game extends Component {
     this.setState({
       score
     });
-    if(this.state.score > this.state.goal) {
+    if(this.state.score >= this.state.goal) {
       const nextLevel = this.state.level+1;
       store.dispatch({
         type: 'setLevel',
@@ -282,6 +285,7 @@ export default class Game extends Component {
     let animation = d;
     let dx;
     let dy;
+    this.setScore(-1 * this.state.level);
     switch (animation) {
       case 'u':
         dx = x;
@@ -397,7 +401,7 @@ export default class Game extends Component {
     newMap.map((row, idx)=>{
       while(row.length !== dataMap[idx].length) {
         switchs = true;
-        row.push(this.random(0, 7));
+        row.push(this.random(1, 7));
       }
     });
 
@@ -467,7 +471,7 @@ export default class Game extends Component {
   render() {
     return (
       <GameStyled>
-        <strong>{this.state.score}</strong>
+        <strong>{this.state.score + ' / ' + this.state.goal}</strong>
         <Map {...this.state} onMove={this.onMove.bind(this)} />
       </GameStyled>
     )

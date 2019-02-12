@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Container from './src/containers/Container';
 import { library } from '@fortawesome/fontawesome-svg-core';
-//import { localDataSet } from './services/index';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit } from '@fortawesome/free-solid-svg-icons';
 import 'normalize.css';
 import store from './src/redux/index';
@@ -17,16 +15,12 @@ const AppStyled = styled.main`
   display: flex;
   height: 100vh;
   align-items: center;
-  background: #fefefe;
-
+  background: #333;
+  
   > div {
     margin: auto;
   }
   
-  section {
-    margin: auto;
-  }
-
   a ,
   button ,
   input {

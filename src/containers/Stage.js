@@ -14,6 +14,7 @@ const StageStyled = styled.section`
   height: 100vh;
   text-align: center;
   font-size: 20em;
+  pointer-events: none;
   background: red;
   
   p {
