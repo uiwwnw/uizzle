@@ -44,6 +44,7 @@ const CollStyled = styled.div`
   display: flex;
   flex-direction: column-reverse;
 `;
+
 class Coll extends Component {
   constructor(props) {
     super(props);
@@ -72,8 +73,7 @@ class Coll extends Component {
 }
 const MapStyled = styled.div`
   display: flex;
-  height: 100vh;
-  align-items: center;
+  align-items: baseline;
 `;
 
 class Map extends Component {
@@ -101,9 +101,21 @@ class Map extends Component {
 }
 
 const GameStyled = styled.section`
+  display: flex;
+  height: 100vh;
+  align-items: center;
   user-select: none;
+  
+  .level {
+    position: absolute;
+    right: 100%;
+    top: 0;
+    padding: 10px;
+    border: 1px solid #000;
+    background: #fff;
+  }
 
-  strong {
+  .score {
     position: absolute;
     left: 100%;
     top: 0;
@@ -248,7 +260,7 @@ export default class Game extends Component {
       dx: null,
       dy: null,
       score: 0,
-      goal: 1000 * level,
+      goal: 400 * level,
       animation: null
     };
     this.setDataMap = this.setDataMap.bind(this);
@@ -285,7 +297,6 @@ export default class Game extends Component {
     let animation = d;
     let dx;
     let dy;
-    this.setScore(-1 * this.state.level);
     switch (animation) {
       case 'u':
         dx = x;
@@ -296,6 +307,8 @@ export default class Game extends Component {
         start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'd');
         dataMap[x].splice(y + 1, 0, start[0]);
+        this.setScore(-1 * this.state.level);
+
         break;
       case 'd':
         dx = x;
@@ -306,6 +319,8 @@ export default class Game extends Component {
         start = dataMap[x].splice(y, 1);
         //endEl.setAttribute('data-animation', 'u');
         dataMap[x].splice(y - 1, 0, start[0]);
+        this.setScore(-1 * this.state.level);
+
         break;
       case 'r':
         dx = x + 1;
@@ -318,6 +333,8 @@ export default class Game extends Component {
         end = dataMap[x + 1].splice(y, 1);
         dataMap[x + 1].splice(y, 0, start[0]);
         dataMap[x].splice(y, 0, end[0]);
+        this.setScore(-1 * this.state.level);
+
         break;
       case 'l':
         dx = x - 1;
@@ -330,6 +347,8 @@ export default class Game extends Component {
         end = dataMap[x - 1].splice(y, 1);
         dataMap[x - 1].splice(y, 0, start[0]);
         dataMap[x].splice(y, 0, end[0]);
+        this.setScore(-1 * this.state.level);
+
         break;
       case null:
         dx = this.state.dx;
@@ -352,6 +371,7 @@ export default class Game extends Component {
   }
 
   onCheck() {
+    // Todo 소스개선 및 겹치는 것 체크 못함 해결
     let switchs = false;
     let { dataMap } = this.state;
     let colSwitch = null;
@@ -471,7 +491,8 @@ export default class Game extends Component {
   render() {
     return (
       <GameStyled>
-        <strong>{this.state.score + ' / ' + this.state.goal}</strong>
+        <strong className="level">레벨{this.state.level}</strong>
+        <strong className="score">{this.state.score + ' / ' + this.state.goal}</strong>
         <Map {...this.state} onMove={this.onMove.bind(this)} />
       </GameStyled>
     )
