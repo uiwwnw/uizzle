@@ -6,4 +6,4 @@ export {
   Button,
   Cell,
   Loading,
-}
+};

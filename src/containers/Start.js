@@ -45,25 +45,25 @@ export default class Start extends Component {
 
     const kakaoLogin = (() => {
       // 사용할 앱의 JavaScript 키를 설정해 주세요.
-      Kakao.init('8c6f50a3498bb7a95ee140fc621fdf8b');
+      Kakao.init(process.env.KAKAOKEY);
       // 카카오 로그인 버튼을 생성합니다.
       Kakao.Auth.createLoginButton({
         container: '#kakao-login-btn',
-        success: function (authObj) {
+        success: function(authObj) {
           // 로그인 성공시, API를 호출합니다.
           Kakao.API.request({
             url: '/v2/user/me',
-            success: function (res) {
+            success: function(res) {
               // const data = res;
               const { id, properties } = res;
               userInfo(id, properties.profile_image, properties.nickname);
             },
-            fail: function (error) {
+            fail: function(error) {
               alert(JSON.stringify(error));
             },
           });
         },
-        fail: function (err) {
+        fail: function(err) {
           alert(JSON.stringify(err));
         },
       });

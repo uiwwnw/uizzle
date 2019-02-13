@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import * as Components from '../components/Components';
 import styled from 'styled-components';
-import "@babel/polyfill";
+import '@babel/polyfill';
 import store from '../redux/index';
 
 const IStyled = styled.i`
@@ -17,6 +17,7 @@ const IStyled = styled.i`
   font-style: normal;
   background: #000;
 `;
+
 class Row extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +29,7 @@ class Row extends Component {
     let animation = false;
     if (num === 0) {
       return (
-        <IStyled>empty</IStyled>
+        <IStyled>disabled</IStyled>
       );
     }
     if (this.props.x === this.props.dx && this.props.y === this.props.dy) {
@@ -36,10 +37,11 @@ class Row extends Component {
     }
     return (
       // <components.Cell switch={this.switch.bind(this)} x={this.props.x} y={this.props.y} num={num} />
-      <Components.Cell {...this.props} animation={animation} num={num} />
+      <Components.Cell {...this.props} animation={animation} num={num}/>
     );
   }
 }
+
 const CollStyled = styled.div`
   display: flex;
   flex-direction: column-reverse;
@@ -71,6 +73,7 @@ class Coll extends Component {
     );
   }
 }
+
 const MapStyled = styled.div`
   display: flex;
   align-items: baseline;
@@ -83,13 +86,13 @@ class Map extends Component {
   }
 
   render() {
-    let view = <Components.Loading />
+    let view = <Components.Loading/>;
     if (this.props.dataMap) {
       view = this.props.dataMap.map((map, mapIdx) => {
         return (
-          <Coll {...this.props} dataMap={map} key={mapIdx} x={mapIdx} />
+          <Coll {...this.props} dataMap={map} key={mapIdx} x={mapIdx}/>
         );
-      })
+      });
     }
 
     return (
@@ -191,6 +194,12 @@ const GameStyled = styled.section`
     &[data-icon="volume-up"] {
       background: red;
     }
+    
+        
+    &[data-icon="bomb"] {
+      animation: bomb .3s forwards;
+    }
+
 
     svg {
       pointer-events: none;
@@ -212,6 +221,34 @@ const GameStyled = styled.section`
       }
       100%{
           transform: scale(1) rotate(0);
+      }
+    }
+    
+    @keyframes bomb {
+      0%{
+          transform: scale(1);
+      }
+      10%{
+          transform: scale(.9) rotate(30deg);
+      }
+      20%{
+          transform: scale(.5) rotate(-30deg);
+      }
+      30%{
+          transform: scale(2);
+      }
+      40%{
+          transform: scale(0) rotate(0);
+      }
+      50%{
+          width: 10vmin;
+          height: 10vmin;
+      }
+      100%{
+          width: 0;
+          height: 0;
+          font-size: 0;
+          border: 0;
       }
     }
     
@@ -261,8 +298,9 @@ export default class Game extends Component {
       dy: null,
       score: 0,
       goal: 400 * level,
-      animation: null
+      animation: null,
     };
+    this.sto;
     this.setDataMap = this.setDataMap.bind(this);
     this.onCheck = this.onCheck.bind(this);
     this.setScore = this.setScore.bind(this);
@@ -277,20 +315,20 @@ export default class Game extends Component {
   setScore(score) {
     score += this.state.score;
     this.setState({
-      score
+      score,
     });
-    if(this.state.score >= this.state.goal) {
-      const nextLevel = this.state.level+1;
+    if (this.state.score >= this.state.goal) {
+      const nextLevel = this.state.level + 1;
       store.dispatch({
         type: 'setLevel',
-        level: nextLevel
+        level: nextLevel,
       });
       this.props.history.push('/stage');
     }
   }
 
   onMove() {
-    const [x, y, i, d] = arguments;
+    const [ x, y, i, d ] = arguments;
     const { dataMap } = this.state;
     let start;
     let end;
@@ -301,52 +339,52 @@ export default class Game extends Component {
       case 'u':
         dx = x;
         dy = y + 1;
-        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
           return false;
         }
-        start = dataMap[x].splice(y, 1);
+        start = dataMap[ x ].splice(y, 1);
         //endEl.setAttribute('data-animation', 'd');
-        dataMap[x].splice(y + 1, 0, start[0]);
+        dataMap[ x ].splice(y + 1, 0, start[ 0 ]);
         this.setScore(-1 * this.state.level);
 
         break;
       case 'd':
         dx = x;
         dy = y - 1;
-        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
           return false;
         }
-        start = dataMap[x].splice(y, 1);
+        start = dataMap[ x ].splice(y, 1);
         //endEl.setAttribute('data-animation', 'u');
-        dataMap[x].splice(y - 1, 0, start[0]);
+        dataMap[ x ].splice(y - 1, 0, start[ 0 ]);
         this.setScore(-1 * this.state.level);
 
         break;
       case 'r':
         dx = x + 1;
         dy = y;
-        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
           return false;
         }
-        start = dataMap[x].splice(y, 1);
+        start = dataMap[ x ].splice(y, 1);
         //endEl.setAttribute('data-animation', 'l');
-        end = dataMap[x + 1].splice(y, 1);
-        dataMap[x + 1].splice(y, 0, start[0]);
-        dataMap[x].splice(y, 0, end[0]);
+        end = dataMap[ x + 1 ].splice(y, 1);
+        dataMap[ x + 1 ].splice(y, 0, start[ 0 ]);
+        dataMap[ x ].splice(y, 0, end[ 0 ]);
         this.setScore(-1 * this.state.level);
 
         break;
       case 'l':
         dx = x - 1;
         dy = y;
-        if (dx < 0 || dy < 0 || dataMap[dx][dy] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
           return false;
         }
-        start = dataMap[x].splice(y, 1);
+        start = dataMap[ x ].splice(y, 1);
         //endEl.setAttribute('data-animation', 'r');
-        end = dataMap[x - 1].splice(y, 1);
-        dataMap[x - 1].splice(y, 0, start[0]);
-        dataMap[x].splice(y, 0, end[0]);
+        end = dataMap[ x - 1 ].splice(y, 1);
+        dataMap[ x - 1 ].splice(y, 0, start[ 0 ]);
+        dataMap[ x ].splice(y, 0, end[ 0 ]);
         this.setScore(-1 * this.state.level);
 
         break;
@@ -362,7 +400,7 @@ export default class Game extends Component {
       dataMap,
       dx,
       dy,
-      animation
+      animation,
     });
     this.onCheck();
     // this.forceUpdate();
@@ -372,6 +410,7 @@ export default class Game extends Component {
 
   onCheck() {
     // Todo 소스개선 및 겹치는 것 체크 못함 해결
+    // Todo 사라지는 에니메이션 추가
     let switchs = false;
     let { dataMap } = this.state;
     let colSwitch = null;
@@ -446,15 +485,15 @@ export default class Game extends Component {
           const rowLength = dataMap.length;
 
           if (collLength > 1 && rowLength < 2) {
-            while (num === coll[collLength - 1] && num === coll[collLength - 2]) {
+            while (num === coll[ collLength - 1 ] && num === coll[ collLength - 2 ]) {
               num = this.random(1, 7);
             }
           } else if (rowLength > 1 && collLength < 2) {
-            while (num === dataMap[rowLength - 1][collLength] && num === dataMap[rowLength - 2][collLength]) {
+            while (num === dataMap[ rowLength - 1 ][ collLength ] && num === dataMap[ rowLength - 2 ][ collLength ]) {
               num = this.random(1, 7);
             }
           } else if (rowLength > 1 && collLength > 1) {
-            while (num === coll[collLength - 1] && num === coll[collLength - 2] || num === dataMap[rowLength - 1][collLength] && num === dataMap[rowLength - 2][collLength]) {
+            while (num === coll[ collLength - 1 ] && num === coll[ collLength - 2 ] || num === dataMap[ rowLength - 1 ][ collLength ] && num === dataMap[ rowLength - 2 ][ collLength ]) {
               num = this.random(1, 7);
             }
           }
@@ -469,7 +508,7 @@ export default class Game extends Component {
       dataMap.push(coll);
     }
     this.setState({
-      dataMap
+      dataMap,
     });
   }
 
@@ -493,8 +532,8 @@ export default class Game extends Component {
       <GameStyled>
         <strong className="level">레벨{this.state.level}</strong>
         <strong className="score">{this.state.score + ' / ' + this.state.goal}</strong>
-        <Map {...this.state} onMove={this.onMove.bind(this)} />
+        <Map {...this.state} onMove={this.onMove.bind(this)}/>
       </GameStyled>
-    )
+    );
   }
 }

@@ -255,6 +255,9 @@ export default class Cell extends Component {
       case 7:
         icon = 'edit';
         break;
+      case 8:
+        icon = 'bomb';
+        break;
     }
     this.setState({
       num,

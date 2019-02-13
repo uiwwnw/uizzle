@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-import styled from 'styled-components';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import styled, { createGlobalStyle } from 'styled-components';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Container from './src/containers/Container';
+import Container from './containers/Container';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit } from '@fortawesome/free-solid-svg-icons';
-import 'normalize.css';
-import store from './src/redux/index';
+import { faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit, faBomb } from '@fortawesome/free-solid-svg-icons';
+import store from './redux';
 
-library.add(faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit);
+library.add(faCamera, faHome, faSearch, faAddressBook, faVolumeUp, faWifi, faEdit, faBomb);
+const GlobalStyle = createGlobalStyle`
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
 const AppStyled = styled.main`
   overflow: hidden; 
   display: flex;
@@ -37,12 +44,14 @@ const AppStyled = styled.main`
     content: ""; 
   } */
 `;
+
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <AppStyled>
-         <Container />
+          <Container/>
+          <GlobalStyle/>
         </AppStyled>
       </BrowserRouter>
     );

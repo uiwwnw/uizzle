@@ -11,6 +11,6 @@ export default class Loading extends Component {
       <LoadingStyled>
         loading
       </LoadingStyled>
-    )
+    );
   }
 }

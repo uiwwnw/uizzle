@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
 const ButtonStyled = styled.button`
   display: block;
   margin: auto;
@@ -23,11 +24,11 @@ export default class Button extends Component {
       <ButtonStyled bg={this.props.bg} to={this.props.to}>
         {text}
       </ButtonStyled>
-    )
+    );
   }
 }
 
 Button.defaultProps = {
   text: PropTypes.string,
-  to: PropTypes.string
+  to: PropTypes.string,
 };

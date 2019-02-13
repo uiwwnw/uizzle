@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { Switch, Route, withRouter } from "react-router-dom";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import React from 'react';
+import styled from 'styled-components';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import Stage from "./Stage";
-import Game from "./Game";
-import Start from "./Start";
+import Stage from './Stage';
+import Game from './Game';
+import Start from './Start';
 
 function Container({ location }) {
   return (
@@ -18,9 +18,9 @@ function Container({ location }) {
         >
           <div className="route-section">
             <Switch location={location}>
-              <Route exact path="/" component={Start} />
-              <Route path="/game" component={Game} />
-              <Route path="/stage" component={Stage} />
+              <Route exact path="/" component={Start}/>
+              <Route path="/game" component={Game}/>
+              <Route path="/stage" component={Stage}/>
             </Switch>
           </div>
         </CSSTransition>
@@ -28,6 +28,7 @@ function Container({ location }) {
     </Wrapper>
   );
 }
+
 const Wrapper = styled.div`
   .fade-enter {
     opacity: 0.01;
