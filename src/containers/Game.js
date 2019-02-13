@@ -407,71 +407,137 @@ export default class Game extends Component {
     // console.log(this.state.dataMap[x]);
     //this.check(x, y, i, d);
   }
-
   onCheck() {
     // Todo 소스개선 및 겹치는 것 체크 못함 해결
     // Todo 사라지는 에니메이션 추가
     let switchs = false;
     let { dataMap } = this.state;
-    let colSwitch = null;
-    let rowSwitch = null;
+    let colSwitch = 0;
+    let rowSwitch = 0;
     let rows = null;
-    const newMap = dataMap.map((row, rowIndex) => {
-      return row.filter((col, colIndex, arr) => {
+    let newMap = dataMap.map((row, rowIndex) => {
+      return row.map((col, colIndex, arr) => {
         if (col > 0) {
-          if (colIndex < (dataMap[0].length - 4) && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3] && col === arr[colIndex + 4]) {
+          if (colIndex < (dataMap[ 0 ].length - 4) && col === arr[ colIndex + 1 ] && col === arr[ colIndex + 2 ] && col === arr[ colIndex + 3 ] && col === arr[ colIndex + 4 ]) {
             colSwitch = 5;
-          } else if (colIndex < (dataMap[0].length - 3) && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3]) {
+          } else if (colIndex < (dataMap[ 0 ].length - 3) && col === arr[ colIndex + 1 ] && col === arr[ colIndex + 2 ] && col === arr[ colIndex + 3 ]) {
             colSwitch = 4;
-          } else if (colIndex < (dataMap[0].length - 2) && col === arr[colIndex + 1] && col === arr[colIndex + 2]) {
+          } else if (colIndex < (dataMap[ 0 ].length - 2) && col === arr[ colIndex + 1 ] && col === arr[ colIndex + 2 ]) {
             colSwitch = 3;
           }
-          if (rowIndex < (dataMap.length - 4) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex] && col === dataMap[rowIndex + 4][colIndex]) {
+          if (rowIndex < (dataMap.length - 4) && col === dataMap[ rowIndex + 1 ][ colIndex ] && col === dataMap[ rowIndex + 2 ][ colIndex ] && col === dataMap[ rowIndex + 3 ][ colIndex ] && col === dataMap[ rowIndex + 4 ][ colIndex ]) {
             rowSwitch = 5;
             rows = colIndex;
-          } else if (rowIndex < (dataMap.length - 3) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex]) {
+          } else if (rowIndex < (dataMap.length - 3) && col === dataMap[ rowIndex + 1 ][ colIndex ] && col === dataMap[ rowIndex + 2 ][ colIndex ] && col === dataMap[ rowIndex + 3 ][ colIndex ]) {
             rowSwitch = 4;
             rows = colIndex;
-          } else if (rowIndex < (dataMap.length - 2) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex]) {
+          } else if (rowIndex < (dataMap.length - 2) && col === dataMap[ rowIndex + 1 ][ colIndex ] && col === dataMap[ rowIndex + 2 ][ colIndex ]) {
             rowSwitch = 3;
             rows = colIndex;
           }
-          if (colSwitch && !rowSwitch) {
+          if (colSwitch) {
             this.setScore(Math.pow(colSwitch, colSwitch));
             colSwitch--;
-            return false;
-          } else if (!colSwitch && rowSwitch && rows === colIndex) {
+            return 8;
+          }
+          if (rowSwitch && rows === colIndex) {
             this.setScore(Math.pow(rowSwitch, rowSwitch));
             rowSwitch--;
-            return false;
-          } else if (colSwitch && rowSwitch) {
-            this.setScore(Math.pow(Math.max(colSwitch, rowSwitch), Math.max(colSwitch, rowSwitch)));
-            colSwitch--;
-            rowSwitch--;
-            return false;
-          } else {
-            return true;
+            return 8;
           }
+          return col;
         } else {
-          return true;
+          return col;
         }
       });
     });
-    newMap.map((row, idx)=>{
-      while(row.length !== dataMap[idx].length) {
-        switchs = true;
-        row.push(this.random(1, 7));
-      }
+    newMap = newMap.map((row) => {
+      return row.map((col) => {
+        if (col === 8) {
+          row.push(this.random(1, 7));
+        }
+        return col;
+      });
     });
+    clearTimeout(this.sto);
+    this.sto = setTimeout(() => {
+      newMap = newMap.map((row, idx) => {
+        return row.filter((col) => {
+          return col !== 8;
+        });
+      });
+      this.setState({
+        dataMap: newMap,
+      });
+    }, 700);
 
     this.setState({
-      dataMap: newMap
+      dataMap: newMap,
     });
 
-    if(switchs) {
+    if (switchs) {
       this.onCheck();
     }
   }
+  //onCheck() {
+  //  // Todo 소스개선 및 겹치는 것 체크 못함 해결
+  //  // Todo 사라지는 에니메이션 추가
+  //  let switchs = false;
+  //  let { dataMap } = this.state;
+  //  let colSwitch = 0;
+  //  let rowSwitch = 0;
+  //  let rows = null;
+  //  const newMap = dataMap.map((row, rowIndex) => {
+  //    return row.filter((col, colIndex, arr) => {
+  //      if (col > 0) {
+  //        if (colIndex < (dataMap[0].length - 4) && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3] && col === arr[colIndex + 4]) {
+  //          colSwitch = 5;
+  //        } else if (colIndex < (dataMap[0].length - 3) && col === arr[colIndex + 1] && col === arr[colIndex + 2] && col === arr[colIndex + 3]) {
+  //          colSwitch = 4;
+  //        } else if (colIndex < (dataMap[0].length - 2) && col === arr[colIndex + 1] && col === arr[colIndex + 2]) {
+  //          colSwitch = 3;
+  //        }
+  //        if (rowIndex < (dataMap.length - 4) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex] && col === dataMap[rowIndex + 4][colIndex]) {
+  //          rowSwitch = 5;
+  //          rows = colIndex;
+  //        } else if (rowIndex < (dataMap.length - 3) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex] && col === dataMap[rowIndex + 3][colIndex]) {
+  //          rowSwitch = 4;
+  //          rows = colIndex;
+  //        } else if (rowIndex < (dataMap.length - 2) && col === dataMap[rowIndex + 1][colIndex] && col === dataMap[rowIndex + 2][colIndex]) {
+  //          rowSwitch = 3;
+  //          rows = colIndex;
+  //        }
+  //        if (colSwitch) {
+  //          this.setScore(Math.pow(colSwitch, colSwitch));
+  //          colSwitch--;
+  //          return false;
+  //        }
+  //        if (rowSwitch && rows === colIndex) {
+  //          this.setScore(Math.pow(rowSwitch, rowSwitch));
+  //          rowSwitch--;
+  //          return false;
+  //        }
+  //        return true;
+  //      } else {
+  //        return true;
+  //      }
+  //    });
+  //  });
+  //  newMap.map((row, idx)=>{
+  //    while(row.length !== dataMap[idx].length) {
+  //      switchs = true;
+  //      row.push(this.random(1, 7));
+  //    }
+  //  });
+  //
+  //  this.setState({
+  //    dataMap: newMap
+  //  });
+  //
+  //  if(switchs) {
+  //    this.onCheck();
+  //  }
+  //}
 
   async setDataMap() {
     let dataMap = [];
