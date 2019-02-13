@@ -109,6 +109,31 @@ const GameStyled = styled.section`
   align-items: center;
   user-select: none;
   
+  &[disabled] {
+    pointer-events: none;
+    
+    &:before {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: .5;
+      background: #000;
+      content: '';
+    }
+    
+    &:after {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5em;
+      color: #fff;
+      content: '잠시 기다려주세요';
+    }
+  }
+  
   .level {
     position: absolute;
     right: 100%;
@@ -299,8 +324,10 @@ export default class Game extends Component {
       score: 0,
       goal: 1000 * level,
       animation: null,
+      disabled: false,
     };
     this.sto;
+    this.sto2;
     this.setDataMap = this.setDataMap.bind(this);
     this.onCheck = this.onCheck.bind(this);
     this.setScore = this.setScore.bind(this);
@@ -318,13 +345,18 @@ export default class Game extends Component {
       score,
     });
     if (this.state.goal < score) {
-      clearTimeout(this.sto);
-      const nextLevel = this.state.level + 1;
-      store.dispatch({
-        type: 'setLevel',
-        level: nextLevel,
+      clearTimeout(this.sto2);
+      this.setState({
+        disabled: true,
       });
-      this.props.history.push('/stage');
+      this.sto2 = setTimeout(() => {
+        const nextLevel = this.state.level + 1;
+        store.dispatch({
+          type: 'setLevel',
+          level: nextLevel,
+        });
+        this.props.history.push('/stage');
+      }, 1500);
     }
   }
 
@@ -617,7 +649,7 @@ export default class Game extends Component {
 
   render() {
     return (
-      <GameStyled>
+      <GameStyled disabled={this.state.disabled}>
         <strong className="level">레벨{this.state.level}</strong>
         <strong className="score">{this.state.score + ' / ' + this.state.goal}</strong>
         <Map {...this.state} onMove={this.onMove.bind(this)}/>
