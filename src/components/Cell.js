@@ -203,6 +203,7 @@ export default class Cell extends Component {
     //  });
     //}, 300);
     // this.states();
+
     window.removeEventListener('mousemove', this.move, false);
     window.removeEventListener('mouseup', this.up, false);
   }

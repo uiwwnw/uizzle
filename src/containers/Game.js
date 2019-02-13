@@ -297,7 +297,6 @@ export default class Game extends Component {
       dx: null,
       dy: null,
       score: 0,
-      goal: 400 * level,
       animation: null,
     };
     this.sto;
@@ -317,7 +316,7 @@ export default class Game extends Component {
     this.setState({
       score,
     });
-    if (this.state.score >= this.state.goal) {
+    if (this.state.dataMap.length < 5) {
       const nextLevel = this.state.level + 1;
       store.dispatch({
         type: 'setLevel',
@@ -339,7 +338,7 @@ export default class Game extends Component {
       case 'u':
         dx = x;
         dy = y + 1;
-        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0 || dataMap[ dx ][ dy ] === undefined) {
           return false;
         }
         start = dataMap[ x ].splice(y, 1);
@@ -351,7 +350,7 @@ export default class Game extends Component {
       case 'd':
         dx = x;
         dy = y - 1;
-        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0 || dataMap[ dx ][ dy ] === undefined) {
           return false;
         }
         start = dataMap[ x ].splice(y, 1);
@@ -363,7 +362,7 @@ export default class Game extends Component {
       case 'r':
         dx = x + 1;
         dy = y;
-        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0 || dataMap[ dx ][ dy ] === undefined) {
           return false;
         }
         start = dataMap[ x ].splice(y, 1);
@@ -377,7 +376,7 @@ export default class Game extends Component {
       case 'l':
         dx = x - 1;
         dy = y;
-        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0) {
+        if (dx < 0 || dy < 0 || dataMap[ dx ][ dy ] === 0 || dataMap[ dx ][ dy ] === undefined) {
           return false;
         }
         start = dataMap[ x ].splice(y, 1);
@@ -407,6 +406,7 @@ export default class Game extends Component {
     // console.log(this.state.dataMap[x]);
     //this.check(x, y, i, d);
   }
+
   onCheck() {
     // Todo 소스개선 및 겹치는 것 체크 못함 해결
     // Todo 사라지는 에니메이션 추가
@@ -451,25 +451,27 @@ export default class Game extends Component {
         }
       });
     });
-    newMap = newMap.map((row) => {
-      return row.map((col) => {
-        if (col === 8) {
-          row.push(this.random(1, 7));
-        }
-        return col;
-      });
-    });
+
     clearTimeout(this.sto);
     this.sto = setTimeout(() => {
       newMap = newMap.map((row, idx) => {
         return row.filter((col) => {
+          if (col !== 8) {
+            switchs = true;
+          }
           return col !== 8;
         });
+      });
+      newMap = newMap.filter((row) => {
+        return row.length !== 0;
       });
       this.setState({
         dataMap: newMap,
       });
-    }, 700);
+      if (switchs) {
+        this.onCheck();
+      }
+    }, 500);
 
     this.setState({
       dataMap: newMap,
@@ -479,6 +481,7 @@ export default class Game extends Component {
       this.onCheck();
     }
   }
+
   //onCheck() {
   //  // Todo 소스개선 및 겹치는 것 체크 못함 해결
   //  // Todo 사라지는 에니메이션 추가
