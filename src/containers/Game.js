@@ -32,9 +32,9 @@ class Row extends Component {
         <IStyled>disabled</IStyled>
       );
     }
-    if (this.props.x === this.props.dx && this.props.y === this.props.dy) {
-      animation = this.props.animation;
-    }
+    //if (this.props.x === this.props.dx && this.props.y === this.props.dy) {
+    //  animation = this.props.animation;
+    //}
     return (
       // <components.Cell switch={this.switch.bind(this)} x={this.props.x} y={this.props.y} num={num} />
       <Components.Cell {...this.props} animation={animation} num={num}/>
@@ -297,6 +297,7 @@ export default class Game extends Component {
       dx: null,
       dy: null,
       score: 0,
+      goal: 1000 * level,
       animation: null,
     };
     this.sto;
@@ -316,7 +317,8 @@ export default class Game extends Component {
     this.setState({
       score,
     });
-    if (this.state.dataMap.length < 5) {
+    if (this.state.goal < score) {
+      clearTimeout(this.sto);
       const nextLevel = this.state.level + 1;
       store.dispatch({
         type: 'setLevel',
@@ -454,20 +456,37 @@ export default class Game extends Component {
 
     clearTimeout(this.sto);
     this.sto = setTimeout(() => {
-      newMap = newMap.map((row, idx) => {
+      newMap.forEach((row, idx) => {
+        row.forEach((col) => {
+          if (col === 8) {
+            newMap[ idx ].push(this.random(1, 7));
+          }
+        });
+      });
+      newMap = newMap.map((row) => {
         return row.filter((col) => {
-          if (col !== 8) {
+          if (col === 8) {
             switchs = true;
           }
           return col !== 8;
         });
       });
-      newMap = newMap.filter((row) => {
-        return row.length !== 0;
-      });
+
+      //newMap = newMap.filter((row) => {
+      //  return row.length !== 0;
+      //});
       this.setState({
         dataMap: newMap,
       });
+      //if (newMap.length < 5) {
+      //  const nextLevel = this.state.level + 1;
+      //  store.dispatch({
+      //    type: 'setLevel',
+      //    level: nextLevel,
+      //  });
+      //  this.props.history.push('/stage');
+      //  return false;
+      //}
       if (switchs) {
         this.onCheck();
       }
