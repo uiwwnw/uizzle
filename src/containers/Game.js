@@ -10,6 +10,7 @@ const IStyled = styled.i`
   width: 10vmin;
   height: 10vmin;
   color: #fff;
+  font-size: 2vmin;
   line-height: 10vmin;
   text-align: center;
   border: 1px solid #000;
@@ -76,7 +77,10 @@ class Coll extends Component {
 
 const MapStyled = styled.div`
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
+  overflow: hidden;
+  width: 90vmin;
+  height: 90vmin;
 `;
 
 class Map extends Component {
@@ -223,11 +227,16 @@ const GameStyled = styled.section`
         
     &[data-icon="bomb"] {
       animation: bomb .3s forwards;
+      
+      svg {
+        color: red;
+      }
     }
 
 
     svg {
       pointer-events: none;
+      font-size: 5vmin;
       color: #fff;
     }
     
@@ -263,17 +272,20 @@ const GameStyled = styled.section`
           transform: scale(2);
       }
       40%{
-          transform: scale(0) rotate(0);
+          transform: scale(1) rotate(0);
       }
       50%{
           width: 10vmin;
           height: 10vmin;
+          opacity: 1;
       }
       100%{
           width: 0;
           height: 0;
+          margin: auto;
           font-size: 0;
           border: 0;
+          opacity: 0;
       }
     }
     
@@ -485,16 +497,16 @@ export default class Game extends Component {
         }
       });
     });
-
+    newMap.forEach((row, idx) => {
+      row.forEach((col) => {
+        if (col === 8) {
+          newMap[ idx ].push(this.random(1, 7));
+        }
+      });
+    });
     clearTimeout(this.sto);
     this.sto = setTimeout(() => {
-      newMap.forEach((row, idx) => {
-        row.forEach((col) => {
-          if (col === 8) {
-            newMap[ idx ].push(this.random(1, 7));
-          }
-        });
-      });
+
       newMap = newMap.map((row) => {
         return row.filter((col) => {
           if (col === 8) {
