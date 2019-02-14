@@ -132,7 +132,7 @@ const GameStyled = styled.section`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 5em;
+      font-size: 10vmin;
       color: #fff;
       content: '잠시 기다려주세요';
     }
@@ -484,6 +484,9 @@ export default class Game extends Component {
           if (colSwitch) {
             this.setScore(Math.pow(colSwitch, colSwitch));
             colSwitch--;
+            if((rowSwitch && rows === colIndex)) {
+              rowSwitch--;
+            }
             return 8;
           }
           if (rowSwitch && rows === colIndex) {
