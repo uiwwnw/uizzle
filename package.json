@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/App.js",
   "scripts": {
-    "start": "npm run clean && npm run copy:dev && concurrently \"npm run server\" \"npm run test\"",
+    "start": "npm run clean && npm run copy:dev && npm run test",
     "test": "webpack-dev-server --inline --hot --env --config webpack.dev.js",
     "server": "json-server --watch data/index.json",
     "copy": "copyfiles -f ./config/prod/.env ./",

@@ -4,6 +4,7 @@ import * as Components from '../components/Components';
 import styled from 'styled-components';
 import '@babel/polyfill';
 import store from '../redux/index';
+import mapJson from '../../data/index';
 
 const IStyled = styled.i`
   /* flex: 1; */
@@ -610,8 +611,9 @@ export default class Game extends Component {
 
   async setDataMap() {
     let dataMap = [];
-    const dataBg = await axios(`//localhost:3000/bg${this.state.level}`);
-    for (let col of dataBg.data) {
+    const bg = 'bg' + this.state.level;
+    const dataBg = mapJson[bg];
+    for (let col of dataBg) {
       const coll = [];
       for (let row of col) {
         if (row !== 0) {
